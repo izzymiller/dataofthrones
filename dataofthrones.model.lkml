@@ -51,22 +51,11 @@ explore: episodes {
     type: left_outer
     sql_on: ${opening_locations.name} = ${episodes.opening_sequence_locations} ;;
   }
-  join: locations__regions {
-    fields: [locations__regions.location]
+  join: locations {
     view_label: "Location"
-    from: locations__regions
-    type: left_outer
     relationship: one_to_one
-    sql_on: ${locations__regions.location} = ${scenes.location} ;;
-  }
-
-  join: sublocations  {
-    view_label: "Location"
-    fields: [sublocations.sub_location]
-    from: locations__regions
     type: left_outer
-    relationship: one_to_one
-    sql_on: ${sublocations.sub_location} - ${scenes.sub_location} ;;
+    sql_on: ${locations.sub_location} = ${scenes.sub_location} ;;
   }
 }
 

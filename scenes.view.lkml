@@ -57,14 +57,19 @@ view: scenes {
 
   dimension: scene_end {
     label: "Scene End"
-    type: date_time
+    type: string
     sql: ${TABLE}.scene_end ;;
   }
 
   dimension: scene_start {
     label: "Scene Start"
-    type: date_time
+    type: string
     sql: ${TABLE}.scene_start ;;
+  }
+
+  dimension: scene_length_secs {
+    type: number
+    sql: TIME_DIFF( ${TABLE}.scene_end,${TABLE}.scene_start,second) ;;
   }
 
   dimension: sub_location {
