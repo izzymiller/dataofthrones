@@ -51,6 +51,7 @@ view: characters {
   dimension: character_name {
     type: string
     sql: ${TABLE}.characterName ;;
+    primary_key: yes
   }
 
   dimension: guarded_by {

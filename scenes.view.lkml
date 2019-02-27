@@ -1,20 +1,22 @@
 view: scenes {
   sql_table_name: game_of_thrones_19.scenes ;;
 
+  dimension: pk {
+    type: string
+    sql: concat(${unique_ep},"-", ${scene_id}) ;;
+    primary_key: yes
+  }
+
   dimension: scene_id {
+    ##The ID of the scene within the episode
     type: string
     sql: CONCAT(CAST(${TABLE}.scene_start AS string), '-', CAST(${TABLE}.scene_end AS string)) ;;
   }
 
   dimension: unique_ep {
+    ## The Season/Episode Number combo
     type: string
     sql: CONCAT(CAST(${season_num} AS string), "-",CAST(${episode_num} AS string)) ;;
-  }
-
-  dimension: pk {
-    type: string
-    sql: concat(${unique_ep},"-", ${scene_id}) ;;
-    primary_key: yes
   }
 
   dimension: season_num {
@@ -28,61 +30,54 @@ view: scenes {
   }
 
   dimension: alt_location {
+    group_label: "Location"
+    label: "Alternate Location"
     type: string
     sql: ${TABLE}.alt_location ;;
   }
 
   dimension: flashback {
+    label: "Is Flashback?"
     type: string
     sql: ${TABLE}.flashback ;;
   }
 
   dimension: greensight {
+    label: "Has Greensight?"
     type: string
     sql: ${TABLE}.greensight ;;
   }
 
   dimension: location {
+    group_label: "Location"
+    label: "Location"
     type: string
     sql: ${TABLE}.location ;;
   }
 
-  dimension_group: scene_end {
-    type: time
-    timeframes: [
-      raw,
-      time,
-      date,
-      week,
-      month,
-      quarter,
-      year
-    ]
+  dimension: scene_end {
+    label: "Scene End"
+    type: date_time
     sql: ${TABLE}.scene_end ;;
   }
 
-  dimension_group: scene_start {
-    type: time
-    timeframes: [
-      raw,
-      time,
-      date,
-      week,
-      month,
-      quarter,
-      year
-    ]
+  dimension: scene_start {
+    label: "Scene Start"
+    type: date_time
     sql: ${TABLE}.scene_start ;;
   }
 
   dimension: sub_location {
+    group_label: "Location"
+    label: "Sub Location"
     type: string
     sql: ${TABLE}.sub_location ;;
   }
 
   dimension: warg {
-    type: string
-    sql: ${TABLE}.warg ;;
+    label: "Warg?"
+    type: yesno
+    sql: ${TABLE}.warg = "true" ;;
   }
 
   measure: count {
@@ -102,17 +97,20 @@ view: scene_characters {
   }
 
   dimension: scene_id {
+    #Unique ID of scene within episode
     type: string
     sql: CONCAT(CAST(${TABLE}.scene_start AS string), '-', CAST(${TABLE}.scene_end AS string)) ;;
     primary_key: no
   }
 
   dimension: unique_ep {
+    #The season/episode unique combo
     type: string
     sql: CONCAT(CAST(${TABLE}.season_num AS string), "-",CAST(${TABLE}.episode_num AS string)) ;;
   }
 
   dimension: pk {
+    #Primary Key
     type: string
     sql: concat(${unique_ep},"-", ${scene_id}) ;;
     primary_key: yes
@@ -143,42 +141,49 @@ view: scene_characters {
   }
 
   dimension: characters_married_consummated {
+    group_label: "Marriage"
     label: "Is Marriage Consummated?"
     type: yesno
     sql: ${TABLE}.characters_married_consummated ;;
   }
 
   dimension: characters_married_to {
+    group_label: "Marriage"
     label: "Married To"
     type: string
     sql: ${TABLE}.characters_married_to ;;
   }
 
   dimension: characters_married_type {
+    group_label: "Marriage"
     label: "Marriage Type"
     type: string
     sql: ${TABLE}.characters_married_type ;;
   }
 
   dimension: characters_married_when {
+    group_label: "Marriage"
     label: "Married When"
     type: string
     sql: ${TABLE}.characters_married_when ;;
   }
 
   dimension: characters_sex_type {
+    group_label: "Sex"
     label: "Sex Type"
     type: string
     sql: ${TABLE}.characters_sex_type ;;
   }
 
   dimension: characters_sex_when {
+    group_label: "Sex"
     label: "Sex When"
     type: string
     sql: ${TABLE}.characters_sex_when ;;
   }
 
   dimension: characters_sex_with {
+    group_label: "Sex"
     label: "Sex With"
     type: string
     sql: ${TABLE}.characters_sex_with ;;
@@ -191,12 +196,14 @@ view: scene_characters {
   # }
 
   dimension: characters_weapon_action {
+    group_label: "Weapon"
     label: "Weapon Action"
     type: string
     sql: ${TABLE}.characters_weapon_action ;;
   }
 
   dimension: characters_weapon_name {
+    group_label: "Weapon"
     label: "Weapon Name"
     type: string
     sql: ${TABLE}.characters_weapon_name ;;
