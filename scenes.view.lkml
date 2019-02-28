@@ -29,12 +29,12 @@ view: scenes {
     sql: ${TABLE}.episode_num ;;
   }
 
-  dimension: alt_location {
-    group_label: "Location"
-    label: "Alternate Location"
-    type: string
-    sql: ${TABLE}.alt_location ;;
-  }
+  # dimension: alt_location {
+  #   group_label: "Location"
+  #   label: "Alternate Location"
+  #   type: string
+  #   sql: ${TABLE}.alt_location ;;
+  # }
 
   dimension: flashback {
     label: "Is Flashback?"
@@ -53,6 +53,7 @@ view: scenes {
     label: "Location"
     type: string
     sql: ${TABLE}.location ;;
+    map_layer_name: got_geo
   }
 
   dimension: scene_end {
@@ -77,6 +78,7 @@ view: scenes {
     label: "Sub Location"
     type: string
     sql: ${TABLE}.sub_location ;;
+    # map_layer_name: got_geo_sub
   }
 
   dimension: warg {

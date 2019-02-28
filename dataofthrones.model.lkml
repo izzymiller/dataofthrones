@@ -3,24 +3,31 @@ connection: "lookerdata_publicdata_standard_sql"
 include: "*.view.lkml"                       # include all views in this project
 # include: "my_dashboard.dashboard.lookml"   # include a LookML dashboard called my_dashboard
 
+#
+# map_layer: lands_of_ice_and_fire {
+#   file: "ice_and_fire.topojson"
+#   property_key: "id"
+# }
 
-map_layer: lands_of_ice_and_fire {
-  file: "ice_and_fire.topojson"
-  property_key: "id"
+map_layer: got_geo {
+  file: "newmerged.topojson"
 }
 
 
 explore: characters {
+
   join: deaths {
     type: left_outer
     relationship: one_to_one
     sql_on: ${deaths.name} = ${characters.character_name} ;;
   }
+
   join: screentimes_2 {
     type: left_outer
     relationship: one_to_one
     sql_on: ${screentimes_2.name} = ${characters.character_name} ;;
   }
+
 }
 
 
