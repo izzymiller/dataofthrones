@@ -34,7 +34,7 @@ explore: characters {
 explore: episodes {
   join: scenes {
     type: left_outer
-    relationship: one_to_many
+    relationship: many_to_many
     sql_on: ${scenes.unique_ep} = ${episodes.unique_episode} ;;
   }
 
@@ -52,18 +52,21 @@ explore: episodes {
     sql_on: ${characters.character_name} = ${scene_characters.characters_name} ;;
   }
 
-  join: opening_locations {
-    view_label: "Location"
-    relationship: many_to_many
-    type: left_outer
-    sql_on: ${opening_locations.name} = ${episodes.opening_sequence_locations} ;;
-  }
-  join: locations {
-    view_label: "Location"
-    relationship: one_to_one
-    type: left_outer
-    sql_on: ${locations.sub_location} = ${scenes.sub_location} ;;
-  }
+#   join: opening_locations {
+#     view_label: "Location"
+#     fields: [opening_locations.name]
+#     relationship: many_to_many
+#     type: left_outer
+#     sql_on: ${opening_locations.name} = ${episodes.opening_sequence_locations} ;;
+#   }
+#   join: locations {
+#     view_label: "Location"
+#
+#     fields: [locations.sub_location,locations.location,opening_locations.note]
+#     relationship: one_to_one
+#     type: left_outer
+#     sql_on: ${locations.sub_location} = ${scenes.sub_location} ;;
+#   }
 }
 
 

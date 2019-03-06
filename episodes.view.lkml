@@ -35,6 +35,7 @@ view: episodes {
   dimension: opening_sequence_locations {
     type: string
     sql: ${TABLE}.opening_sequence_locations ;;
+    map_layer_name: got_geo
   }
 
   dimension: season_num {

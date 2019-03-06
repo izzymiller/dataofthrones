@@ -14,17 +14,20 @@ view: scenes {
   }
 
   dimension: unique_ep {
+    hidden: yes
     ## The Season/Episode Number combo
     type: string
     sql: CONCAT(CAST(${season_num} AS string), "-",CAST(${episode_num} AS string)) ;;
   }
 
   dimension: season_num {
+    hidden: yes
     type: number
     sql: ${TABLE}.season_num ;;
   }
 
   dimension: episode_num {
+    hidden: yes
     type: number
     sql: ${TABLE}.episode_num ;;
   }
@@ -78,7 +81,7 @@ view: scenes {
     label: "Sub Location"
     type: string
     sql: ${TABLE}.sub_location ;;
-    # map_layer_name: got_geo_sub
+    map_layer_name: got_geo
   }
 
   dimension: warg {
@@ -89,6 +92,13 @@ view: scenes {
 
   measure: count {
     type: count
+  }
+
+
+  measure: scene_length {
+    label: "Scene Length (s)"
+    type: sum
+    sql: ${scene_length_secs} ;;
   }
 }
 

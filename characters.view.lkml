@@ -12,11 +12,14 @@ view: characters {
   }
 
   dimension: actor_link {
+    #IMDB actor link. Could join in other stuff from imdb dataset
     type: string
     sql: ${TABLE}.actorLink ;;
+    hidden: yes
   }
 
   dimension: actor_name {
+    #Does not contain everything
     type: string
     sql: ${TABLE}.actorName ;;
   }
@@ -32,18 +35,24 @@ view: characters {
   }
 
   dimension: character_image_full {
+    group_label: "Images"
+    label: "Full"
     type: string
     html: <img src={{value}} </img> ;;
     sql: ${TABLE}.characterImageFull ;;
   }
 
   dimension: character_image_thumb {
+    group_label: "Images"
+    label: "Thumbnail"
     type: string
     html: <img src={{value}} </img> ;;
     sql: ${TABLE}.characterImageThumb ;;
   }
 
   dimension: character_link {
+    #IMDB char link
+    hidden: yes
     type: string
     sql: ${TABLE}.characterLink ;;
   }
@@ -51,7 +60,6 @@ view: characters {
   dimension: character_name {
     type: string
     sql: ${TABLE}.characterName ;;
-    primary_key: yes
   }
 
   dimension: guarded_by {
@@ -65,11 +73,14 @@ view: characters {
   }
 
   dimension: house_name {
+    #Small. Need to sync with characters_house?
     type: string
     sql: ${TABLE}.houseName ;;
   }
 
   dimension: int64_field_0 {
+    #id
+    hidden: yes
     type: number
     sql: ${TABLE}.int64_field_0 ;;
   }
@@ -135,7 +146,7 @@ view: characters {
   }
 
   measure: count {
-    type: count
-    drill_fields: [actor_name, house_name, character_name, nickname]
+    type: count_distinct
+    sql: ${character_name} ;;
   }
 }

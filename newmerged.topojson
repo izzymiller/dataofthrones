@@ -23804,7 +23804,7 @@
           ],
           "type": "Polygon",
           "properties": {
-            "name": "The Riverlands",
+            "name": "Riverlands",
             "id": 2,
             "ClaimedBy": null,
             "layer": " continents",
@@ -23859,7 +23859,7 @@
           ],
           "type": "Polygon",
           "properties": {
-            "name": "Riverlands",
+            "name": "The Riverlands",
             "id": 2,
             "ClaimedBy": "Tully",
             "layer": " political",
