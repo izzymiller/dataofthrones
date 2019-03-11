@@ -1,3 +1,4 @@
+#Up to date through season 7
 view: actor_screentime {
   sql_table_name: game_of_thrones_19.actor_screentime ;;
 

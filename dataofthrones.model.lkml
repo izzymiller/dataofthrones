@@ -31,6 +31,17 @@ explore: characters {
 }
 
 
+explore: scripts {
+  #Lines
+  join: scripts_unnested {
+    type: left_outer
+    relationship: many_to_many
+    view_label: "Broken Up By Word"
+    sql_on: ${scripts.episode} = ${scripts_unnested.episode} ;;
+  }
+}
+
+
 explore: episodes {
   join: scenes {
     type: left_outer
