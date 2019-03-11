@@ -136,7 +136,7 @@ view: scene_characters {
   dimension: characters_alive {
     label: "Is Alive?"
     type: yesno
-    sql: ${TABLE}.characters_alive ;;
+    sql:${TABLE}.characters_alive IS NULL ;;
   }
 
   dimension: characters_born {
@@ -224,6 +224,15 @@ view: scene_characters {
     label: "Weapon Name"
     type: string
     sql: ${TABLE}.characters_weapon_name ;;
+  }
+
+  measure: count_deaths {
+  type: count
+   filters: {
+     field: characters_killed_by
+     value: "-NULL"
+   }
+  sql_distinct_key: CONCAT(${characters_name},${pk}) ;;
   }
 
 
