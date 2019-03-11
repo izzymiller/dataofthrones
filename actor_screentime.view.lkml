@@ -1,6 +1,8 @@
 view: actor_screentime {
   sql_table_name: game_of_thrones_19.actor_screentime ;;
 
+#   Number of minutes of screentime by actor and season
+
   dimension: actor {
     type: string
     sql: ${TABLE}.actor ;;

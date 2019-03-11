@@ -14,20 +14,20 @@ view: scenes {
   }
 
   dimension: unique_ep {
-    hidden: yes
+#     hidden: yes
     ## The Season/Episode Number combo
     type: string
     sql: CONCAT(CAST(${season_num} AS string), "-",CAST(${episode_num} AS string)) ;;
   }
 
   dimension: season_num {
-    hidden: yes
+#     hidden: yes
     type: number
     sql: ${TABLE}.season_num ;;
   }
 
   dimension: episode_num {
-    hidden: yes
+#     hidden: yes
     type: number
     sql: ${TABLE}.episode_num ;;
   }
@@ -108,7 +108,7 @@ view: scene_characters {
 
   dimension: characters_name {
     type: string
-    hidden: yes
+#     hidden: yes
     #For joining characters in
     sql: ${TABLE}.characters_name ;;
   }
