@@ -14,6 +14,7 @@ view: character_facts {
 
       GROUP BY 1,2,3
       ORDER BY 1)
+
       SELECT
        deaths.characters_name
       ,deaths.character_death
@@ -24,19 +25,26 @@ view: character_facts {
       ,characters.characterimageFull
       ,characters.characterImageThumb
       ,characters.characterLink
+      ,CASE
+        WHEN REGEXP_CONTAINS(deaths.characters_name, 'Frey') THEN 'Frey'
+        WHEN REGEXP_CONTAINS(deaths.characters_name, 'Greyjoy') THEN 'Greyjoy'
+        WHEN REGEXP_CONTAINS(deaths.characters_name, 'Targaryen') THEN 'Targaryen'
+        WHEN REGEXP_CONTAINS(deaths.characters_name, 'Lannister') THEN 'Lannister'
+        WHEN REGEXP_CONTAINS(deaths.characters_name, 'Baratheon') THEN 'Baratheon'
+        WHEN REGEXP_CONTAINS(deaths.characters_name, 'Ironborn') THEN 'Greyjoy'
+        WHEN REGEXP_CONTAINS(deaths.characters_name, 'Khal') THEN 'Dothraki'
+        WHEN REGEXP_CONTAINS(deaths.characters_name, 'Dothraki') THEN 'Dothraki'
+        WHEN REGEXP_CONTAINS(deaths.characters_name, 'Tyrell') THEN 'Tyrell'
+        WHEN REGEXP_CONTAINS(deaths.characters_name, 'Watchman') THEN 'Nights Watch'
+      ELSE houses.string_field_1 END AS character_house
       ,row_number() OVER() AS key
       FROM deaths
       LEFT JOIN game_of_thrones_19.characters  AS characters ON characters.characterName = deaths.characters_name
+      LEFT JOIN game_of_thrones_19.characters_houses AS houses ON deaths.characters_name = houses.string_field_0
       WHERE deaths.characters_name IS NOT NULL
-      GROUP BY 1, 2, 3, 4, 5, 6, 7, 8, 9
+      GROUP BY 1, 2, 3, 4, 5, 6, 7, 8, 9, 10
       ORDER BY 1
-       ;;
-  }
-
-  dimension: key {
-    hidden: yes
-    type: number
-    sql: ${TABLE}.key ;;
+ ;;
   }
 
   measure: count {
@@ -89,6 +97,16 @@ view: character_facts {
     sql: ${TABLE}.characterLink ;;
   }
 
+  dimension: character_house {
+    type: string
+    sql: ${TABLE}.character_house ;;
+  }
+
+  dimension: key {
+    type: number
+    sql: ${TABLE}.key ;;
+  }
+
   set: detail {
     fields: [
       characters_name,
@@ -99,7 +117,9 @@ view: character_facts {
       actor_name,
       characterimage_full,
       character_image_thumb,
-      character_link
+      character_link,
+      character_house,
+      key
     ]
   }
 }
