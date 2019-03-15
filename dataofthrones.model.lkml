@@ -41,8 +41,48 @@ explore: scripts {
   }
 }
 
-
 explore: episodes {
+  label: "Episodes"
+  join: death_episode {
+    view_label: "Deaths"
+    type: left_outer
+    sql_on: ${episodes.unique_episode} = ${death_episode.unique_episode}  ;;
+    relationship: one_to_many
+  }
+  join: sex_episode {
+    view_label: "Sex"
+    type: left_outer
+    sql_on: ${episodes.unique_episode} = ${sex_episode.unique_episode}  ;;
+    relationship: one_to_many
+  }
+  join: scenes {
+    fields: []
+    type: left_outer
+    relationship: many_to_many
+    sql_on: ${scenes.unique_ep} = ${episodes.unique_episode} ;;
+  }
+  join: scene_characters {
+    fields: []
+    relationship: one_to_many
+    view_label: "Scene Actions"
+    type: left_outer
+    sql_on: ${scenes.pk} = ${scene_characters.pk} ;;
+  }
+
+  join: characters {
+    fields: [characters.actor_name,characters.character_name,characters.house_name,
+      characters.nickname,characters.kingsguard,characters.royal,characters.count]
+    relationship: many_to_one
+    view_label: "Characters"
+    type: left_outer
+    sql_on: ${characters.character_name} = ${scene_characters.characters_name} ;;
+  }
+}
+
+
+explore: episodes_old {
+  view_name: episodes
+  label: "Episodes_old"
   join: scenes {
     type: left_outer
     relationship: many_to_many
