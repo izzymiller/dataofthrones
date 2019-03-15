@@ -13,22 +13,27 @@ map_layer: got_geo {
   file: "newmerged.topojson"
 }
 
-
 explore: characters {
-
-  join: deaths {
-    type: left_outer
-    relationship: one_to_one
-    sql_on: ${deaths.name} = ${characters.character_name} ;;
-  }
-
-  join: screentimes_2 {
-    type: left_outer
-    relationship: one_to_one
-    sql_on: ${screentimes_2.name} = ${characters.character_name} ;;
-  }
-
+  view_name: character_facts
+  label: "Characters"
 }
+
+
+# explore: characters_old {
+#   view_name: characters
+#   join: deaths {
+#     type: left_outer
+#     relationship: one_to_one
+#     sql_on: ${deaths.name} = ${characters.character_name} ;;
+#   }
+#
+#   join: screentimes_2 {
+#     type: left_outer
+#     relationship: one_to_one
+#     sql_on: ${screentimes_2.name} = ${characters.character_name} ;;
+#   }
+#
+# }
 
 
 explore: scripts {
@@ -70,19 +75,27 @@ explore: episodes {
   }
 
   join: characters {
-    fields: [characters.actor_name,characters.character_name,characters.house_name,
+    fields: [characters.actor_name,characters.character_name,
       characters.nickname,characters.kingsguard,characters.royal,characters.count]
     relationship: many_to_one
     view_label: "Characters"
     type: left_outer
     sql_on: ${characters.character_name} = ${scene_characters.characters_name} ;;
   }
+
+  join: character_facts {
+    fields: [character_facts.is_alive,character_facts.house,character_facts.image_full,character_facts.image_thumb]
+    relationship: one_to_one
+    view_label: "Characters"
+    type: left_outer
+    sql_on: ${character_facts.name} = ${characters.character_name} ;;
+  }
 }
 
 
-explore: episodes_old {
+explore: scene_level_information {
   view_name: episodes
-  label: "Episodes_old"
+  label: "Scene Level Detail"
   join: scenes {
     type: left_outer
     relationship: many_to_many

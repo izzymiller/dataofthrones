@@ -1,3 +1,7 @@
+explore: char_old {
+  view_name: characters
+}
+
 view: characters {
   sql_table_name: game_of_thrones_19.characters ;;
 

@@ -1,6 +1,18 @@
 view: character_facts {
   derived_table: {
-    sql: WITH deaths AS (
+    sql: WITH scene_screentime AS (
+    SELECT
+  characters.characterName  AS character_name,
+  COALESCE(ROUND(COALESCE(CAST( ( SUM(DISTINCT (CAST(ROUND(COALESCE((TIME_DIFF( scenes.scene_end,scenes.scene_start,second)) ,0)*(1/1000*1.0), 9) AS NUMERIC) + (cast(cast(concat('0x', substr(to_hex(md5(CAST(concat((CONCAT(CAST(scenes.season_num AS string), "-",CAST(scenes.episode_num AS string))),"-", (CONCAT(CAST(scenes.scene_start AS string), '-', CAST(scenes.scene_end AS string))))  AS STRING))), 1, 15)) as int64) as numeric) * 4294967296 + cast(cast(concat('0x', substr(to_hex(md5(CAST(concat((CONCAT(CAST(scenes.season_num AS string), "-",CAST(scenes.episode_num AS string))),"-", (CONCAT(CAST(scenes.scene_start AS string), '-', CAST(scenes.scene_end AS string))))  AS STRING))), 16, 8)) as int64) as numeric)) * 0.000000001 )) - SUM(DISTINCT (cast(cast(concat('0x', substr(to_hex(md5(CAST(concat((CONCAT(CAST(scenes.season_num AS string), "-",CAST(scenes.episode_num AS string))),"-", (CONCAT(CAST(scenes.scene_start AS string), '-', CAST(scenes.scene_end AS string))))  AS STRING))), 1, 15)) as int64) as numeric) * 4294967296 + cast(cast(concat('0x', substr(to_hex(md5(CAST(concat((CONCAT(CAST(scenes.season_num AS string), "-",CAST(scenes.episode_num AS string))),"-", (CONCAT(CAST(scenes.scene_start AS string), '-', CAST(scenes.scene_end AS string))))  AS STRING))), 16, 8)) as int64) as numeric)) * 0.000000001) )  / (1/1000*1.0) AS FLOAT64), 0), 6), 0) AS scene_length
+FROM game_of_thrones_19.episodes  AS episodes
+LEFT JOIN game_of_thrones_19.scenes  AS scenes ON (CONCAT(CAST(scenes.season_num AS string), "-",CAST(scenes.episode_num AS string))) = (CONCAT(CAST(episodes.season_num AS string),"-",CAST(episodes.episode_num AS string)))
+LEFT JOIN game_of_thrones_19.scenes  AS scene_characters ON (concat((CONCAT(CAST(scenes.season_num AS string), "-",CAST(scenes.episode_num AS string))),"-", (CONCAT(CAST(scenes.scene_start AS string), '-', CAST(scenes.scene_end AS string))))) = (concat((CONCAT(CAST(scene_characters.season_num AS string), "-",CAST(scene_characters.episode_num AS string))),"-", (CONCAT(CAST(scene_characters.scene_start AS string), '-', CAST(scene_characters.scene_end AS string)))))
+LEFT JOIN game_of_thrones_19.characters  AS characters ON characters.characterName = scene_characters.characters_name
+
+GROUP BY 1
+
+),
+deaths AS (
       SELECT
         scene_characters.characters_name  AS characters_name,
         scene_characters.characters_manner_of_death  AS scene_characters_characters_manner_of_death,
@@ -25,6 +37,7 @@ view: character_facts {
       ,characters.characterimageFull
       ,characters.characterImageThumb
       ,characters.characterLink
+      ,scene_screentime.scene_length AS screentime
       ,CASE
         WHEN REGEXP_CONTAINS(deaths.characters_name, 'Frey') THEN 'Frey'
         WHEN REGEXP_CONTAINS(deaths.characters_name, 'Greyjoy') THEN 'Greyjoy'
@@ -41,38 +54,38 @@ view: character_facts {
       FROM deaths
       LEFT JOIN game_of_thrones_19.characters  AS characters ON characters.characterName = deaths.characters_name
       LEFT JOIN game_of_thrones_19.characters_houses AS houses ON deaths.characters_name = houses.string_field_0
+      LEFT JOIN scene_screentime ON scene_screentime.character_name = characters.characterName
       WHERE deaths.characters_name IS NOT NULL
-      GROUP BY 1, 2, 3, 4, 5, 6, 7, 8, 9, 10
+      GROUP BY 1, 2, 3, 4, 5, 6, 7, 8, 9, 10,11
       ORDER BY 1
  ;;
-  }
-
-  measure: count {
-    type: count
-    drill_fields: [detail*]
-  }
-
-  dimension: characters_name {
-    type: string
-    sql: ${TABLE}.characters_name ;;
-  }
-
-  dimension: character_death {
-    type: string
-    sql: ${TABLE}.character_death ;;
-  }
-
-  dimension: character_is_alive {
-    type: string
-    sql: ${TABLE}.character_is_alive ;;
+sql_trigger_value: 1 ;;
   }
 
   dimension: id {
+    hidden: yes
     type: number
     sql: ${TABLE}.id ;;
   }
 
+  dimension:name {
+    label: " ⁣Name"
+    type: string
+    sql: ${TABLE}.characters_name ;;
+  }
+
+  dimension: death {
+    type: string
+    sql: ${TABLE}.character_death ;;
+  }
+
+  dimension: is_alive {
+    type: yesno
+    sql: ${TABLE}.character_is_alive = 'Yes' ;;
+  }
+
   dimension: actor_link {
+    hidden: yes
     type: string
     sql: ${TABLE}.actorLink ;;
   }
@@ -82,13 +95,18 @@ view: character_facts {
     sql: ${TABLE}.actorName ;;
   }
 
-  dimension: characterimage_full {
+  dimension: image_full {
+    label: "Full"
+    group_label: "Images"
     type: string
     sql: ${TABLE}.characterimageFull ;;
   }
 
-  dimension: character_image_thumb {
+  dimension: image_thumb {
+    label: "Thumbnail"
+    group_label: "Images"
     type: string
+    html: <img src={{value}} </img> ;;
     sql: ${TABLE}.characterImageThumb ;;
   }
 
@@ -97,7 +115,7 @@ view: character_facts {
     sql: ${TABLE}.characterLink ;;
   }
 
-  dimension: character_house {
+  dimension: house {
     type: string
     sql: ${TABLE}.character_house ;;
   }
@@ -105,21 +123,31 @@ view: character_facts {
   dimension: key {
     type: number
     sql: ${TABLE}.key ;;
+    hidden: yes
+    primary_key: yes
+  }
+
+
+  measure: count {
+    type: count
+    drill_fields: [detail*]
+  }
+
+  measure: total_screentime {
+    type: sum
+    sql: ${TABLE}.screentime ;;
   }
 
   set: detail {
     fields: [
-      characters_name,
-      character_death,
-      character_is_alive,
+      image_thumb,
       id,
-      actor_link,
+      name,
+      death,
+      is_alive,
       actor_name,
-      characterimage_full,
-      character_image_thumb,
       character_link,
-      character_house,
-      key
+      house,
     ]
   }
 }
