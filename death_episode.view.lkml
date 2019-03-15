@@ -56,4 +56,10 @@ sql_trigger_value: SELECT 1 ;;
     sql: ${pk} ;;
   }
 
+  measure: count_kills {
+    type: count_distinct
+    label: "Count Kills"
+    sql: CASE WHEN ${killed_by} = ${character_name} THEN ${pk} ELSE NULL END ;;
+  }
+
 }

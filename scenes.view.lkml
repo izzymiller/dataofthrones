@@ -235,5 +235,15 @@ view: scene_characters {
   sql_distinct_key: CONCAT(${characters_name},${pk}) ;;
   }
 
+  measure: count_kills {
+    type: count
+    filters: {
+      field: characters_killed_by
+      value: "-NULL"
+    }
+    sql_distinct_key: CASE WHEN ${characters_killed_by} = ${characters_name} THEN CONCAT(${characters_name},${pk}) ELSE NULL END ;;
+  }
+
+
 
 }

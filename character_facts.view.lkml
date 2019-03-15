@@ -25,7 +25,22 @@ deaths AS (
       LEFT JOIN game_of_thrones_19.scenes  AS scene_characters ON (concat((CONCAT(CAST(scenes.season_num AS string), "-",CAST(scenes.episode_num AS string))),"-", (CONCAT(CAST(scenes.scene_start AS string), '-', CAST(scenes.scene_end AS string))))) = (concat((CONCAT(CAST(scene_characters.season_num AS string), "-",CAST(scene_characters.episode_num AS string))),"-", (CONCAT(CAST(scene_characters.scene_start AS string), '-', CAST(scene_characters.scene_end AS string)))))
 
       GROUP BY 1,2,3
-      ORDER BY 1)
+      ORDER BY 1),
+kills AS (
+WITH deaths AS (SELECT
+  death_episode.character_name  AS character_name,
+  death_episode.killed_by  AS death_episode_killed_by
+FROM game_of_thrones_19.episodes  AS episodes
+LEFT JOIN ${death_episode.SQL_TABLE_NAME} AS death_episode ON (CONCAT(CAST(episodes.season_num AS string),"-",CAST(episodes.episode_num AS string))) = death_episode.unique_episode
+
+GROUP BY 1,2
+ORDER BY 1 )
+SELECT killers.characterName as killer_name,
+COUNT(DISTINCT deaths.character_name) AS count_kills
+FROM game_of_thrones_19.characters killers
+LEFT JOIN deaths ON killers.characterName = deaths.death_episode_killed_by
+GROUP BY 1
+)
 
       SELECT
        deaths.characters_name
@@ -36,7 +51,8 @@ deaths AS (
       ,characters.actorName
       ,characters.characterimageFull
       ,characters.characterImageThumb
-      ,characters.characterLink
+      ,characters.characterLink,
+      kills.count_kills
       ,scene_screentime.scene_length AS screentime
       ,CASE
         WHEN REGEXP_CONTAINS(deaths.characters_name, 'Frey') THEN 'Frey'
@@ -55,8 +71,9 @@ deaths AS (
       LEFT JOIN game_of_thrones_19.characters  AS characters ON characters.characterName = deaths.characters_name
       LEFT JOIN game_of_thrones_19.characters_houses AS houses ON deaths.characters_name = houses.string_field_0
       LEFT JOIN scene_screentime ON scene_screentime.character_name = characters.characterName
+      LEFT JOIN kills ON kills.killer_name = characters.characterName
       WHERE deaths.characters_name IS NOT NULL
-      GROUP BY 1, 2, 3, 4, 5, 6, 7, 8, 9, 10,11
+      GROUP BY 1, 2, 3, 4, 5, 6, 7, 8, 9, 10,11,12
       ORDER BY 1
  ;;
 sql_trigger_value: 1 ;;
@@ -131,6 +148,11 @@ sql_trigger_value: 1 ;;
   measure: count {
     type: count
     drill_fields: [detail*]
+  }
+
+  measure: kills {
+    type: sum
+    sql: ${TABLE}.count_kills ;;
   }
 
   measure: total_screentime {
