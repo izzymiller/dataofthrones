@@ -44,6 +44,16 @@ explore: scripts {
     view_label: "Broken Up By Word"
     sql_on: ${scripts.episode} = ${scripts_unnested.episode} ;;
   }
+  join: characters {
+    type: left_outer
+    relationship: many_to_many
+    sql_on: ${characters.character_name} = ${scripts.speaker} ;;
+  }
+  join: episodes {
+    type: left_outer
+    relationship: many_to_many
+    sql_on: ${scripts.episode} = ${episodes.title} ;;
+  }
 }
 
 explore: episodes {

@@ -4,7 +4,7 @@ view: scripts_unnested {
       scripts.speaker  AS scripts_speaker,
       scripts.episode AS episode,
       split(line,' ') AS word
-    FROM game_of_thrones_19.scripts  AS scripts
+    FROM game_of_thrones_19.lines  AS scripts
     WHERE scripts.speaker != 'SCENEDIR'
 
     )

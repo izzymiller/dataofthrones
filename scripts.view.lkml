@@ -1,11 +1,21 @@
 view: scripts {
   sql_table_name: game_of_thrones_19.lines ;;
 
-  dimension: unique_line_id {
+
+  dimension: id {
+    type: number
     primary_key: yes
-    type: string
-    sql: concat(${episode},CAST(${linenum} AS STRING)) ;;
+    sql: ${TABLE}.id ;;
   }
+
+
+#   dimension: unique_line_id {
+#     primary_key: yes
+#     type: string
+#     sql: concat(${episode},CAST(${linenum} AS STRING)) ;;
+#   }
+
+
   dimension: episode {
     type: string
     sql: ${TABLE}.episode ;;
@@ -31,6 +41,34 @@ view: scripts {
   dimension: sentiment {
     type: number
     sql: ${TABLE}.compound ;;
+  }
+
+  measure: average_sentiment {
+    type: average
+    sql: ${sentiment} ;;
+  }
+
+  measure: count_negative_lines {
+    type: count
+    filters: {
+      field: sentiment
+      value: "<0"
+    }
+  }
+  measure: count_positive_lines {
+    type: count
+    filters: {
+      field: sentiment
+      value: ">0"
+    }
+  }
+
+  measure: count_neutral_lines {
+    type: count
+    filters: {
+      field: sentiment
+      value: "0"
+    }
   }
 
   measure: count {
