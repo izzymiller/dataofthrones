@@ -1,5 +1,5 @@
 view: scripts {
-  sql_table_name: game_of_thrones_19.scripts ;;
+  sql_table_name: game_of_thrones_19.lines ;;
 
   dimension: unique_line_id {
     primary_key: yes
@@ -26,6 +26,11 @@ view: scripts {
     #Character Name. SCENEDIR for scene direction lines.
     type: string
     sql: ${TABLE}.speaker ;;
+  }
+
+  dimension: sentiment {
+    type: number
+    sql: ${TABLE}.compound ;;
   }
 
   measure: count {

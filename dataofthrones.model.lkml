@@ -84,7 +84,7 @@ explore: episodes {
   }
 
   join: character_facts {
-    fields: [character_facts.is_alive,character_facts.house,character_facts.image_full,character_facts.image_thumb]
+    fields: [character_facts.is_alive,character_facts.house,character_facts.kills,character_facts.image_full,character_facts.total_screentime,character_facts.image_thumb]
     relationship: one_to_one
     view_label: "Characters"
     type: left_outer
