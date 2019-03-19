@@ -56,7 +56,7 @@ view: scenes {
     label: "Location"
     type: string
     sql: ${TABLE}.location ;;
-    map_layer_name: got_geo
+    map_layer_name: major_locations
   }
 
   dimension: scene_end {
@@ -81,7 +81,7 @@ view: scenes {
     label: "Sub Location"
     type: string
     sql: ${TABLE}.sub_location ;;
-    map_layer_name: got_geo
+    map_layer_name: point_locations
   }
 
   dimension: warg {

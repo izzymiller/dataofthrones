@@ -13,6 +13,16 @@ map_layer: got_geo {
   file: "newmerged.topojson"
 }
 
+map_layer: major_locations {
+  file: "major_locations.topojson"
+  property_key: "name"
+  property_label_key: "name"
+}
+
+map_layer: point_locations {
+  file: "point_locations.topojson"
+}
+
 explore: characters {
   view_name: character_facts
   label: "Characters"
@@ -57,6 +67,7 @@ explore: scripts {
 }
 
 explore: episodes {
+  sql_always_where: ${season_num} != 8 ;;
   label: "Episodes"
   join: death_episode {
     view_label: "Deaths"
