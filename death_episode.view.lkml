@@ -25,6 +25,12 @@ sql_trigger_value: SELECT 1 ;;
     primary_key: yes
   }
 
+  dimension: unique_death {
+    type: string
+    hidden: yes
+    sql: CONCAT(COALESCE(${unique_episode},'blank'),COALESCE(${character_name},'blank'),COALESCE(${manner_of_death},'blank'),COALESCE(${scene_id},'blank')) ;;
+  }
+
   dimension: unique_episode {
     type: string
     sql: ${TABLE}.unique_episode ;;
@@ -54,13 +60,18 @@ sql_trigger_value: SELECT 1 ;;
   measure: count_deaths {
     type: count_distinct
     label: "Count Deaths"
-    sql: ${pk} ;;
+    sql: ${unique_death} ;;
+    drill_fields: [detail*]
   }
 
   measure: count_kills {
     type: count_distinct
     label: "Count Kills"
     sql: CASE WHEN ${killed_by} = ${character_name} THEN ${pk} ELSE NULL END ;;
+  }
+
+  set: detail {
+    fields: [unique_episode,scene_id,character_name,killed_by,manner_of_death]
   }
 
 }
