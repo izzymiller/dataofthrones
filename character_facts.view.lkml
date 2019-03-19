@@ -98,7 +98,9 @@ sql_trigger_value: 1 ;;
 
   dimension: is_alive {
     type: yesno
-    sql: ${TABLE}.character_is_alive = 'Yes' ;;
+    sql: CASE WHEN ${TABLE}.character_is_alive = 'Yes' THEN TRUE
+              WHEN ${TABLE}.characters_name = 'Jon Snow' THEN TRUE
+              ELSE FALSE END;;
   }
 
   dimension: actor_link {
