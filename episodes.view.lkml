@@ -5,6 +5,7 @@ view: episodes {
     type: string
     sql: CONCAT(CAST(${season_num} AS string),"-",CAST(${episode_num} AS string),"-",${opening_sequence_locations}) ;;
     primary_key: yes
+    hidden: yes
   }
 
   dimension: unique_episode {
@@ -18,43 +19,52 @@ view: episodes {
   }
 
   dimension: air_date {
+    description: "Original Air Date of Episode"
     type: string
     sql: ${TABLE}.air_date ;;
   }
 
   dimension: description {
+    description: "Episode Description"
     type: string
     sql: ${TABLE}.description ;;
   }
 
   dimension: link {
+    description: "IMDb Link to Episode"
     type: string
+    html: <a href="https://www.imdb.com/{{value}}" ;;
     sql: ${TABLE}.link ;;
   }
 
   dimension: opening_sequence_locations {
+    description: "Locations seen in the opening title sequence"
     type: string
     sql: ${TABLE}.opening_sequence_locations ;;
-    map_layer_name: got_geo
+    map_layer_name: major_locations
   }
 
   dimension: season_num {
+    label: "Season"
     type: number
     sql: ${TABLE}.season_num ;;
   }
 
   dimension: title {
+    description: "Title of Episode"
     type: string
     sql: ${TABLE}.title ;;
   }
 
-  measure: count {
-    type: count
-    drill_fields: []
-  }
+
 
   measure: count_episodes {
     type: count_distinct
     sql: ${unique_episode} ;;
+    drill_fields: [detail*]
+  }
+
+  set: detail {
+    fields: [season_num,episode_num,title,description]
   }
 }

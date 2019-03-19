@@ -21,6 +21,7 @@ sql_trigger_value: SELECT 1 ;;
 
   dimension: pk {
     type: string
+    hidden: yes
     sql: concat(${unique_episode},${character_name},${sex_with},${scene_id}) ;;
     primary_key: yes
   }

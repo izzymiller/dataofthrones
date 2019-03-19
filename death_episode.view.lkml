@@ -20,6 +20,7 @@ sql_trigger_value: SELECT 1 ;;
 
   dimension: pk {
     type: string
+    hidden: yes
     sql: CONCAT(COALESCE(${unique_episode},'blank'),COALESCE(${character_name},'blank'),COALESCE(${killed_by},'blank'),COALESCE(${manner_of_death},'blank'),COALESCE(${scene_id},'blank')) ;;
     primary_key: yes
   }
