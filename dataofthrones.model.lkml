@@ -20,6 +20,14 @@ map_layer: major_locations {
 explore: characters {
   view_name: character_facts
   label: "Characters"
+  view_label: "Characters"
+  join: characters {
+    view_label: "Characters"
+    fields: [characters.abducted,characters.abducted_by,characters.allies,characters.kingsguard,characters.married_engaged,characters.royal]
+    type: left_outer
+    relationship: one_to_one
+    sql_on: ${character_facts.name} = ${characters.character_name} ;;
+  }
   join: scene_characters {
     relationship: one_to_many
     fields: []
