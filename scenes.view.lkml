@@ -1,5 +1,3 @@
-explore: scenes {}
-
 view: scenes {
   sql_table_name: game_of_thrones_19.scenes ;;
 
