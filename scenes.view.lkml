@@ -91,7 +91,7 @@ view: scenes {
     label: "Sub Location"
     type: string
     sql: ${TABLE}.sub_location ;;
-    map_layer_name: point_locations
+    map_layer_name: major_locations ##TODO ADD NEW LOCATIONS
   }
 
   dimension: warg {

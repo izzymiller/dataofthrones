@@ -13,10 +13,6 @@ map_layer: major_locations {
   property_label_key: "name"
 }
 
-map_layer: point_locations {
-  file: "point_locations.topojson"
-}
-
 
 ###############
 ####EXPLORES###
