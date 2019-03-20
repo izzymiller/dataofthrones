@@ -110,6 +110,7 @@ explore: scene_level_detail {
 
 
 explore: scripts {
+  fields: [ALL_FIELDS*,-episodes.scene_length]
   #Lines
   join: scripts_unnested {
     type: left_outer
