@@ -1,16 +1,14 @@
-explore: char_old {
-  view_name: characters
-}
-
 view: characters {
   sql_table_name: game_of_thrones_19.characters ;;
 
   dimension: abducted {
+    group_label: "Relationships"
     type: string
     sql: ${TABLE}.abducted ;;
   }
 
   dimension: abducted_by {
+    group_label: "Relationships"
     type: string
     sql: ${TABLE}.abductedBy ;;
   }
@@ -23,22 +21,26 @@ view: characters {
   }
 
   dimension: actor_name {
+    hidden: yes
     #Does not contain everything
     type: string
     sql: ${TABLE}.actorName ;;
   }
 
   dimension: actors {
+    hidden: yes
     type: string
     sql: ${TABLE}.actors ;;
   }
 
   dimension: allies {
+    group_label: "Relationships"
     type: string
     sql: ${TABLE}.allies ;;
   }
 
   dimension: character_image_full {
+    hidden: yes
     group_label: "Images"
     label: "Full"
     type: string
@@ -47,6 +49,7 @@ view: characters {
   }
 
   dimension: character_image_thumb {
+    hidden: yes
     group_label: "Images"
     label: "Thumbnail"
     type: string
@@ -62,21 +65,25 @@ view: characters {
   }
 
   dimension: character_name {
+    hidden: yes
     type: string
     sql: ${TABLE}.characterName ;;
   }
 
   dimension: guarded_by {
+    group_label: "Relationships"
     type: string
     sql: ${TABLE}.guardedBy ;;
   }
 
   dimension: guardian_of {
+    group_label: "Relationships"
     type: string
     sql: ${TABLE}.guardianOf ;;
   }
 
   dimension: house_name {
+    hidden: yes
     #Small. Need to sync with characters_house?
     type: string
     sql: ${TABLE}.houseName ;;
@@ -90,11 +97,15 @@ view: characters {
   }
 
   dimension: killed {
+    group_label: "Relationships"
+    hidden: yes
     type: string
     sql: ${TABLE}.killed ;;
   }
 
   dimension: killed_by {
+    group_label: "Relationships"
+    hidden: yes
     type: string
     sql: ${TABLE}.killedBy ;;
   }
@@ -105,6 +116,7 @@ view: characters {
   }
 
   dimension: married_engaged {
+    group_label: "Relationships"
     type: string
     sql: ${TABLE}.marriedEngaged ;;
   }
@@ -115,11 +127,13 @@ view: characters {
   }
 
   dimension: parent_of {
+    group_label: "Relationships"
     type: string
     sql: ${TABLE}.parentOf ;;
   }
 
   dimension: parents {
+    group_label: "Relationships"
     type: string
     sql: ${TABLE}.parents ;;
   }
@@ -130,26 +144,31 @@ view: characters {
   }
 
   dimension: served_by {
+    group_label: "Relationships"
     type: string
     sql: ${TABLE}.servedBy ;;
   }
 
   dimension: serves {
+    group_label: "Relationships"
     type: string
     sql: ${TABLE}.serves ;;
   }
 
   dimension: sibling {
+    group_label: "Relationships"
     type: string
     sql: ${TABLE}.sibling ;;
   }
 
   dimension: siblings {
+    group_label: "Relationships"
     type: string
     sql: ${TABLE}.siblings ;;
   }
 
   measure: count {
+    hidden: yes
     type: count_distinct
     sql: ${character_name} ;;
   }

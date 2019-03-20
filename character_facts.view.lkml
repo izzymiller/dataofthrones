@@ -155,11 +155,23 @@ sql_trigger_value: 1 ;;
   measure: kills {
     type: sum
     sql: ${TABLE}.count_kills ;;
+    drill_fields: [death_episode.character_name,death_episode.manner_of_death,death_episode.unique_episode]
   }
 
   measure: total_screentime {
+    hidden: yes
+    label: "Total Screentime"
+    description: "Pre-Aggregated"
     type: sum
     sql: ${TABLE}.screentime ;;
+  }
+
+  measure: screentime {
+    label: "Screentime (s)"
+    description: "Total length in seconds of scenes including Character"
+    type: sum_distinct
+    sql_distinct_key: ${scenes.unique_scene} ;;
+    sql: ${scenes.scene_length_secs} ;;
   }
 
   set: detail {
@@ -171,7 +183,7 @@ sql_trigger_value: 1 ;;
       is_alive,
       actor_name,
       character_link,
-      house,
+      house
     ]
   }
 }

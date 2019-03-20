@@ -1,10 +1,20 @@
+explore: scenes {}
+
 view: scenes {
   sql_table_name: game_of_thrones_19.scenes ;;
 
   dimension: pk {
+    #Generated Row_Number over the entire dataset, means nothing but uniqueness
+    type: number
+    sql: ${TABLE}.pk ;;
+    hidden: yes
+    primary_key: yes
+  }
+
+  dimension: unique_scene {
     type: string
     sql: concat(${unique_ep},"-", ${scene_id}) ;;
-    primary_key: yes
+    primary_key: no
   }
 
   dimension: scene_id {
@@ -94,13 +104,21 @@ view: scenes {
     type: count
   }
 
-
   measure: scene_length {
     label: "Scene Length (s)"
-    type: sum
+    type: sum_distinct
     sql: ${scene_length_secs} ;;
+    sql_distinct_key: ${unique_scene} ;;
   }
 }
+
+###################################
+###################################
+###################################
+###################################
+###################################
+###################################
+###################################
 
 
 view: scene_characters {
@@ -127,10 +145,17 @@ view: scene_characters {
   }
 
   dimension: pk {
-    #Primary Key
+    #Generated Row_Number over the entire dataset, means nothing but uniqueness
+    type: number
+    sql: ${TABLE}.pk ;;
+    hidden: yes
+    primary_key: yes
+  }
+
+  dimension: unique_scene {
     type: string
     sql: concat(${unique_ep},"-", ${scene_id}) ;;
-    primary_key: yes
+    primary_key: no
   }
 
   dimension: characters_alive {

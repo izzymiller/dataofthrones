@@ -14,6 +14,7 @@ view: episodes {
   }
 
   dimension: episode_num {
+    label: "Episode"
     type: number
     sql: ${TABLE}.episode_num ;;
   }
@@ -56,13 +57,12 @@ view: episodes {
     sql: ${TABLE}.title ;;
   }
 
-
-
   measure: count_episodes {
     type: count_distinct
     sql: ${unique_episode} ;;
     drill_fields: [detail*]
   }
+
 
   set: detail {
     fields: [season_num,episode_num,title,description]

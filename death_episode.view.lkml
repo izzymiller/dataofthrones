@@ -37,6 +37,7 @@ sql_trigger_value: SELECT 1 ;;
   }
 
   dimension: character_name {
+    hidden: yes
     type: string
     sql: ${TABLE}.character_name ;;
   }
@@ -57,10 +58,14 @@ sql_trigger_value: SELECT 1 ;;
   }
 
 
-  measure: count_deaths {
+  measure: count_named_deaths {
     type: count_distinct
-    label: "Count Deaths"
+    label: "Count Named Deaths"
     sql: ${unique_death} ;;
+    filters: {
+      field: character_name
+      value: "-NULL"
+    }
     drill_fields: [detail*]
   }
 
