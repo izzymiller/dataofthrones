@@ -22,28 +22,36 @@ view: scripts {
   }
 
   dimension: linenum {
+    description: "The number of the line within the episode, chronologically"
     #The number of the line within the episode-- Ordering.
     type: number
     sql: ${TABLE}.linenum ;;
   }
 
   dimension: line {
+    description: "Actual line spoken"
     type: string
     sql: ${TABLE}.line ;;
   }
 
   dimension: speaker {
+    description: "Character Name who Spoke. 'SCENEDIR' for scene directions"
     #Character Name. SCENEDIR for scene direction lines.
     type: string
     sql: ${TABLE}.speaker ;;
   }
 
+
+  ##SENTIMENT ANALYSIS, DONE USING VADER
+
   dimension: sentiment {
+    description: "Sentiment of line, calculated using VADER"
     type: number
     sql: ${TABLE}.compound ;;
   }
 
   measure: average_sentiment {
+    description: "Overall Average Sentiment of lines"
     type: average
     sql: ${sentiment} ;;
   }

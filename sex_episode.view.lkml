@@ -32,6 +32,7 @@ sql_trigger_value: SELECT 1 ;;
   }
 
   dimension: character_name {
+    hidden: no
     type: string
     sql: ${TABLE}.character_name ;;
   }

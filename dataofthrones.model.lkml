@@ -3,6 +3,10 @@ connection: "lookerdata_publicdata_standard_sql"
 include: "*.view.lkml"                       # include all views in this project
 
 
+
+########
+##MAPS##
+########
 map_layer: major_locations {
   file: "major_locations.topojson"
   property_key: "name"
@@ -13,6 +17,10 @@ map_layer: point_locations {
   file: "point_locations.topojson"
 }
 
+
+###############
+####EXPLORES###
+###############
 explore: characters {
   view_name: character_facts
   label: "Characters"
@@ -29,8 +37,9 @@ explore: characters {
 }
 
 explore: episodes {
-  sql_always_where: ${season_num} != 8 ;;
+  sql_always_where: ${season_num} != 8 ;; # Remove Season 8 null references
   label: "Episodes"
+  description: "Episode Level Data"
   join: death_episode {
     fields: [death_episode.killed_by,death_episode.count_named_deaths,death_episode.manner_of_death,death_episode.character_name]
     view_label: "Deaths"
@@ -41,13 +50,13 @@ explore: episodes {
   join: sex_episode {
     view_label: "Sex"
     type: left_outer
-    sql_on: ${episodes.unique_episode} = ${sex_episode.unique_episode}  ;;
+    sql_on: ${episodes.unique_episode} = ${sex_episode.unique_episode} AND ${sex_episode.character_name} = ${scene_characters.characters_name}  ;;
     relationship: one_to_many
   }
   join: scenes {
     fields: []
     type: left_outer
-    relationship: many_to_many
+    relationship: one_to_many
     sql_on: ${scenes.unique_ep} = ${episodes.unique_episode} ;;
   }
   join: scene_characters {
@@ -57,7 +66,6 @@ explore: episodes {
     type: left_outer
     sql_on: ${scenes.pk} = ${scene_characters.pk} ;;
   }
-
   join: characters {
 #     fields: [characters.actor_name,characters.character_name,
 #       characters.nickname,characters.kingsguard,characters.royal,characters.count]
@@ -66,7 +74,6 @@ explore: episodes {
     type: left_outer
     sql_on: ${characters.character_name} = ${scene_characters.characters_name} ;;
   }
-
   join: character_facts {
 #     fields: [character_facts.is_alive,character_facts.house,character_facts.kills,character_facts.image_full,character_facts.total_screentime,character_facts.image_thumb]
     relationship: one_to_one
@@ -76,8 +83,8 @@ explore: episodes {
   }
 }
 
-
 explore: scene_level_detail {
+  sql_always_where: ${season_num} != 8 ;; # Remove Season 8 null references
   view_name: episodes
   label: "Scene Level Detail"
   join: scenes {
@@ -107,9 +114,9 @@ explore: scene_level_detail {
   }
 }
 
-
-
 explore: scripts {
+  #This explore contains line-level script information.
+  #Scripts_unnested is broken up by word, to do a word cloud with
   fields: [ALL_FIELDS*,-episodes.scene_length]
   #Lines
   join: scripts_unnested {
@@ -128,4 +135,50 @@ explore: scripts {
     relationship: many_to_many
     sql_on: ${scripts.episode} = ${episodes.title} ;;
   }
+}
+
+##UNDER CONSTRUCTION
+explore: relationships {
+  fields: [ALL_FIELDS*,-sex_with.screentime,-character_facts.screentime,-killed.screentime]
+  view_label: "Base Character"
+  view_name: character_facts
+  description: "Relationships and Actions between Characters"
+  join: characters {
+    view_label: "Base Character"
+    sql_on: ${character_facts.name} = ${characters.character_name} ;;
+    type: left_outer
+    relationship: many_to_many
+  }
+  join: sex_episode {
+    view_label: "Sex With"
+    fields: [sex_episode.sex_type,sex_episode.count_sex]
+    relationship: one_to_many
+    sql_on: ${sex_episode.character_name} = ${character_facts.name} ;;
+    type: left_outer
+  }
+  join: sex_with {
+    from: character_facts
+    view_label: "Sex With"
+    relationship: one_to_one
+    sql_on: ${sex_with.name} = ${sex_episode.sex_with} ;;
+    type: left_outer
+  }
+
+  join: death_episode {
+    fields: [death_episode.manner_of_death,death_episode.count_named_deaths,death_episode.count_kills,death_episode.character_name]
+    view_label: "Killed"
+    relationship: one_to_many
+    sql_on: ${death_episode.killed_by} = ${character_facts.name} ;;
+    type: left_outer
+  }
+
+  join: killed {
+    fields: [killed.name,killed.house,killed.image_thumb,killed.image_full,killed.count]
+    from: character_facts
+    view_label: "Killed"
+    relationship: one_to_one
+    type: left_outer
+    sql_on: ${killed.name} = ${death_episode.character_name} ;;
+  }
+
 }

@@ -64,11 +64,11 @@ view: episodes {
   }
 
   measure: scene_length {
-    label: "Length (s)"
-    description: "Total length in seconds. Same as Screentime, but not tied to Character/Scene"
+    label: "Runtime (m)"
+    description: "Total length in minutes. Same as Screentime, but not tied to Character/Scene"
     type: sum_distinct
     sql_distinct_key: ${scenes.unique_scene} ;;
-    sql: ${scenes.scene_length_secs} ;;
+    sql: ${scenes.scene_length_secs}/60 ;;
   }
 
 
