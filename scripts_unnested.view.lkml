@@ -3,7 +3,7 @@ view: scripts_unnested {
     sql: WITH agg AS (SELECT
       scripts.speaker  AS scripts_speaker,
       scripts.episode AS episode,
-      split(LOWER(REGEXP_REPLACE(line, r'[\.\",*:()\[\]/|\n]', ' ')),' ') AS word
+      split(REPLACE(REPLACE(LOWER(REGEXP_REPLACE(line, r'[\.\",*:()\[\]/|\n]', ' ')),'!',''),'?',''),' ') AS word
     FROM game_of_thrones_19.lines  AS scripts
     WHERE scripts.speaker != 'SCENEDIR'
 
@@ -24,6 +24,11 @@ view: scripts_unnested {
   dimension: speaker {
     type: string
     sql: ${TABLE}.scripts_speaker ;;
+  }
+
+  dimension: is_stopword {
+    type: yesno
+    sql: ${word} IN ('the','to','a','and','of','is','i','that','in','it') ;;
   }
 
 
