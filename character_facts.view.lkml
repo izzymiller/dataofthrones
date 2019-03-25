@@ -167,7 +167,7 @@ sql_trigger_value: 1 ;;
   }
 
   measure: screentime_seconds {
-    group_label:"screentime"
+    group_label:"Screentime"
     label: "Seconds"
     description: "Total length in seconds of scenes including Character"
     type: sum_distinct
@@ -176,7 +176,7 @@ sql_trigger_value: 1 ;;
   }
 
   measure: screentime_minutes {
-    group_label:"screentime"
+    group_label:"Screentime"
     label: "Minutes"
     description: "Total length in Minutes of scenes including Character"
     type: sum_distinct
