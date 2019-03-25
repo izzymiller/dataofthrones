@@ -3,7 +3,7 @@ view: scripts_unnested {
     sql: WITH agg AS (SELECT
       scripts.speaker  AS scripts_speaker,
       scripts.episode AS episode,
-      split(line,' ') AS word
+      split(LOWER(REGEXP_REPLACE(line, r'[\.\",*:()\[\]/|\n]', ' ')),' ') AS word
     FROM game_of_thrones_19.lines  AS scripts
     WHERE scripts.speaker != 'SCENEDIR'
 
