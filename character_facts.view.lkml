@@ -166,13 +166,24 @@ sql_trigger_value: 1 ;;
     sql: ${TABLE}.screentime ;;
   }
 
-  measure: screentime {
-    label: "Screentime (s)"
+  measure: screentime_seconds {
+    group_label:"screentime"
+    label: "Seconds"
     description: "Total length in seconds of scenes including Character"
     type: sum_distinct
     sql_distinct_key: ${scenes.unique_scene} ;;
     sql: ${scenes.scene_length_secs} ;;
   }
+
+  measure: screentime_minutes {
+    group_label:"screentime"
+    label: "Minutes"
+    description: "Total length in Minutes of scenes including Character"
+    type: sum_distinct
+    sql_distinct_key: ${scenes.unique_scene} ;;
+    sql: ${scenes.scene_length_secs} ;;
+  }
+
 
   set: detail {
     fields: [

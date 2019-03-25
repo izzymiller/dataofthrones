@@ -144,7 +144,7 @@ explore: scripts {
 ##UNDER CONSTRUCTION
 explore: relationships {
   hidden: yes
-  fields: [ALL_FIELDS*,-sex_with.screentime,-character_facts.screentime,-killed.screentime]
+  fields: [ALL_FIELDS*,-sex_with.screentime_seconds,-sex_with.screentime_minutes,-character_facts.screentime_seconds,-character_facts.screentime_minutes,-killed.screentime_seconds,-killed.screentime_minutes]
   view_label: "Base Character"
   view_name: character_facts
   description: "Relationships and Actions between Characters"
