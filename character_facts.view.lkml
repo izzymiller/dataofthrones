@@ -188,7 +188,8 @@ sql_trigger_value: 1 ;;
     description: "Total length in Minutes of scenes including Character"
     type: sum_distinct
     sql_distinct_key: ${scenes.unique_scene} ;;
-    sql: ${scenes.scene_length_secs} ;;
+    sql: ${scenes.scene_length_secs}/60 ;;
+    value_format_name: decimal_0
   }
 
 
