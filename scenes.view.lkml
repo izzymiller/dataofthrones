@@ -255,7 +255,7 @@ view: scene_characters {
      field: characters_killed_by
      value: "-NULL"
    }
-  sql_distinct_key: CONCAT(${characters_name},${pk}) ;;
+  sql_distinct_key: CONCAT(${characters_name},CAST(${pk} AS string)) ;;
   }
 
   measure: count_kills {
