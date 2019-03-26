@@ -173,6 +173,58 @@ sql_trigger_value: 1 ;;
       END ;;
   }
 
+  dimension: current_alliance {
+    type: string
+    sql:
+      CASE
+        WHEN REGEXP_CONTAINS(${name}, 'Targaryen') THEN 'Targaryen'
+        WHEN REGEXP_CONTAINS(${name}, 'Dothraki') THEN 'Targaryen'
+        WHEN ${name} = 'Tyrion Lannister' THEN 'Targaryen'
+        WHEN ${name} = 'Jorah Mormont' THEN 'Targaryen'
+        WHEN ${name} = 'Lord Varys' THEN 'Targaryen'
+        WHEN ${name} = 'Sandor Clegane' THEN 'Targaryen'
+        WHEN ${name} = 'Missandei' THEN 'Targaryen'
+        WHEN ${name} = 'Grey Worm' THEN 'Targaryen'
+        WHEN ${name} = 'Drogon' THEN 'Targaryen'
+        WHEN ${name} = 'Qhono' THEN 'Targaryen'
+        WHEN ${name} = 'Unsullied' THEN 'Targaryen'
+        WHEN REGEXP_CONTAINS(${name}, 'Martell') THEN 'Targaryen'
+        WHEN REGEXP_CONTAINS(${name}, 'Sand') THEN 'Targaryen'
+        WHEN REGEXP_CONTAINS(${name}, 'Greyjoy') THEN 'Targaryen'
+        WHEN REGEXP_CONTAINS(${name}, 'Lannister') THEN 'Lannister'
+        WHEN REGEXP_CONTAINS(${name}, 'Frey') THEN 'Lannister'
+        WHEN ${name} = 'Bronn' THEN 'Lannister'
+        WHEN ${name} = 'Gregor Clegane' THEN 'Lannister'
+        WHEN ${name} = 'Qyburn' THEN 'Lannister'
+        WHEN ${name} = 'Ilyn Payne' THEN 'Lannister'
+        WHEN ${name} = 'Samwell Tarly' THEN 'Stark'
+        WHEN REGEXP_CONTAINS(${name}, 'Tarly') THEN 'Lannister'
+        WHEN REGEXP_CONTAINS(${name}, 'Stark') THEN 'Stark'
+        WHEN REGEXP_CONTAINS(${name}, 'Mormont') THEN 'Stark'
+        WHEN REGEXP_CONTAINS(${name}, 'Umber') THEN 'Stark'
+        WHEN REGEXP_CONTAINS(${name}, 'Tully') THEN 'Stark'
+        WHEN ${name} = 'Jon Snow' THEN 'Stark'
+        WHEN ${name} = 'Ghost' THEN 'Stark'
+        WHEN ${name} = 'Davos Seaworth' THEN 'Stark'
+        WHEN ${name} = 'Tormund Giantsbane' THEN 'Stark'
+        WHEN ${name} = 'Yohn Royce' THEN 'Stark'
+        WHEN ${name} = 'Robin Arryn' THEN 'Stark'
+        WHEN ${name} = 'Brienne of Tarth' THEN 'Stark'
+        WHEN ${name} = 'Podrick Payne' THEN 'Stark'
+        WHEN ${name} = 'Eddison Tollett' THEN 'Stark'
+        WHEN ${name} = 'Gendry' THEN 'Stark'
+        WHEN ${name} = 'Gilly' THEN 'Stark'
+        WHEN ${name} = 'Meera Reed' THEN 'Stark'
+        WHEN ${name} = 'Robett Glover' THEN 'Stark'
+        WHEN REGEXP_CONTAINS(${name}, 'Wight') THEN 'White Walkers'
+        WHEN ${name} = 'The Night King' THEN 'White Walkers'
+        WHEN ${name} = 'Rhaegal' THEN 'White Walkers'
+
+
+      ELSE 'None'
+      END ;;
+  }
+
   dimension: key {
     type: number
     sql: ${TABLE}.key ;;
