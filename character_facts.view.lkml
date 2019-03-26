@@ -95,7 +95,7 @@ sql_trigger_value: 1 ;;
 
   dimension: species {
     type: string
-    sql: ${TABLE}.species ;;
+    sql: CASE WHEN ${TABLE}.species IS NULL THEN 'Human' ELSE ${TABLE}.species END ;;
   }
 
   dimension: death {
