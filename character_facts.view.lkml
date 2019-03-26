@@ -87,7 +87,7 @@ sql_trigger_value: 1 ;;
     sql: ${TABLE}.id ;;
   }
 
-  dimension:name {
+  dimension: name {
     label: " ⁣Name"
     type: string
     sql: ${TABLE}.characters_name  ;;
@@ -141,9 +141,36 @@ sql_trigger_value: 1 ;;
     sql: ${TABLE}.characterLink ;;
   }
 
+  dimension: house_derived {
+    type: string
+    sql:
+      CASE
+        WHEN ${name} = 'Jorah Mormont' THEN 'Mormont'
+        WHEN ${name} = 'Samwell Tarly' THEN 'Tarly'
+        WHEN ${name} = 'Brienne of Tarth' THEN 'Tarth'
+        WHEN ${name} = 'Davos Seaworth' THEN 'Seaworth'
+        WHEN ${name} = 'Petyr Baelish' THEN 'Baelish'
+        WHEN ${name} = 'Sandor Clegane' THEN 'Clegane'
+        WHEN ${name} = 'Barristan Selmy' THEN 'Selmy'
+        WHEN ${name} = 'Ramsay Snow' THEN 'Bolton'
+        WHEN ${name} = 'Gendry' THEN 'Baratheon'
+        WHEN ${name} = 'Gregor Clegane' THEN 'Clegane'
+        WHEN ${name} = 'Meera Reed' THEN 'Reed'
+        WHEN ${name} = 'Roose Bolton' THEN 'Bolton'
+        WHEN ${name} = 'Randyll Tarly' THEN 'Tarly'
+        WHEN ${name} = 'Dickon Tarly' THEN 'Tarly'
+      ELSE ${TABLE}.character_house
+      END ;;
+  }
+
   dimension: house {
     type: string
-    sql: ${TABLE}.character_house ;;
+    sql:
+      CASE
+        WHEN TRIM(${house_derived}) = 'Include' THEN 'None'
+        WHEN TRIM(${house_derived}) IS NULL THEN 'None'
+      ELSE ${house_derived}
+      END ;;
   }
 
   dimension: key {
