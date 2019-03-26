@@ -51,8 +51,9 @@ GROUP BY 1
       ,characters.actorName
       ,characters.characterimageFull
       ,characters.characterImageThumb
-      ,characters.characterLink,
-      kills.count_kills
+      ,characters.characterLink
+      ,characters.species
+      ,kills.count_kills
       ,scene_screentime.scene_length AS screentime
       ,CASE
         WHEN REGEXP_CONTAINS(deaths.characters_name, 'Frey') THEN 'Frey'
@@ -73,9 +74,10 @@ GROUP BY 1
       LEFT JOIN scene_screentime ON scene_screentime.character_name = characters.characterName
       LEFT JOIN kills ON kills.killer_name = characters.characterName
       WHERE deaths.characters_name IS NOT NULL
-      GROUP BY 1, 2, 3, 4, 5, 6, 7, 8, 9, 10,11,12
+      GROUP BY 1, 2, 3, 4, 5, 6, 7, 8, 9, 10,11,12,13
       ORDER BY 1
  ;;
+
 sql_trigger_value: 1 ;;
   }
 
@@ -88,7 +90,12 @@ sql_trigger_value: 1 ;;
   dimension:name {
     label: " ⁣Name"
     type: string
-    sql: ${TABLE}.characters_name ;;
+    sql: ${TABLE}.characters_name  ;;
+  }
+
+  dimension: species {
+    type: string
+    sql: ${TABLE}.species ;;
   }
 
   dimension: death {
