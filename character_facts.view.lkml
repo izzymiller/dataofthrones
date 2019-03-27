@@ -142,6 +142,7 @@ sql_trigger_value: 1 ;;
   }
 
   dimension: house_derived {
+    hidden: yes
     type: string
     sql:
       CASE
@@ -239,7 +240,15 @@ sql_trigger_value: 1 ;;
 
 
   measure: count {
+    label: "Number of Characters"
     type: count
+    drill_fields: [detail*]
+  }
+
+  measure: count_house {
+    label: "Number of Houses"
+    type: count_distinct
+    sql: ${house} ;;
     drill_fields: [detail*]
   }
 
