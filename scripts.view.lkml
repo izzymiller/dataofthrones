@@ -34,11 +34,20 @@ view: scripts {
     sql: ${TABLE}.line ;;
   }
 
+  dimension: speaker_raw {
+    #Character Name. SCENEDIR for scene direction lines.
+    hidden: yes
+    type: string
+    sql:
+        CASE WHEN TRIM(${TABLE}.speaker) = 'SANDOR' THEN 'HOUND'
+          ELSE UPPER(TRIM(${TABLE}.speaker))
+        END;;
+  }
+
   dimension: speaker {
     description: "Character Name who Spoke. 'SCENEDIR' for scene directions"
-    #Character Name. SCENEDIR for scene direction lines.
     type: string
-    sql: ${TABLE}.speaker ;;
+    sql: SPLIT(${speaker_raw}, ' ')[SAFE_OFFSET(0)] ;;
   }
 
 
