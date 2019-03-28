@@ -39,8 +39,11 @@ view: scripts {
     hidden: yes
     type: string
     sql:
-        CASE WHEN TRIM(${TABLE}.speaker) = 'SANDOR' THEN 'HOUND'
-          ELSE UPPER(TRIM(${TABLE}.speaker))
+        CASE
+          WHEN TRIM(${TABLE}.speaker) = 'SANDOR' THEN 'HOUND'
+          WHEN TRIM(${TABLE}.speaker) = 'BAELISH' THEN 'LITTLEFINGER'
+          WHEN TRIM(UPPER(${TABLE}.speaker)) = 'PETYR BAELISH' THEN 'LITTLEFINGER'
+        ELSE UPPER(TRIM(${TABLE}.speaker))
         END;;
   }
 
