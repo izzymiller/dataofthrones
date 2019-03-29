@@ -255,7 +255,7 @@ view: scene_characters {
      field: characters_killed_by
      value: "-NULL"
    }
-  sql_distinct_key: CONCAT(${characters_name},CAST(${pk} AS string)) ;;
+  sql_distinct_key: CONCAT(${characters_name}, CAST(${pk} AS string)) ;;
   }
 
   measure: count_kills {
@@ -264,7 +264,7 @@ view: scene_characters {
       field: characters_killed_by
       value: "-NULL"
     }
-    sql_distinct_key: CASE WHEN ${characters_killed_by} = ${characters_name} THEN CONCAT(${characters_name},${pk}) ELSE NULL END ;;
+    sql_distinct_key: CASE WHEN ${characters_killed_by} = ${characters_name} THEN CONCAT(${characters_name}, CAST(${pk} AS string)) ELSE NULL END ;;
   }
 
 
