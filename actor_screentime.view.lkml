@@ -1,51 +1,51 @@
-#Up to date through season 7
-view: actor_screentime {
-  sql_table_name: game_of_thrones_19.actor_screentime ;;
+# #Up to date through season 7. Not used in any explores AFAIK
+# view: actor_screentime {
+#   sql_table_name: game_of_thrones_19.actor_screentime ;;
 
-#   Number of minutes of screentime by actor and season
+# #   Number of minutes of screentime by actor and season
 
-  dimension: actor {
-    type: string
-    sql: ${TABLE}.actor ;;
-  }
+#   dimension: actor {
+#     type: string
+#     sql: ${TABLE}.actor ;;
+#   }
 
-  dimension: season_1 {
-    type: number
-    sql: ${TABLE}.season_1 ;;
-  }
+#   dimension: season_1 {
+#     type: number
+#     sql: ${TABLE}.season_1 ;;
+#   }
 
-  dimension: season_2 {
-    type: number
-    sql: ${TABLE}.season_2 ;;
-  }
+#   dimension: season_2 {
+#     type: number
+#     sql: ${TABLE}.season_2 ;;
+#   }
 
-  dimension: season_3 {
-    type: number
-    sql: ${TABLE}.season_3 ;;
-  }
+#   dimension: season_3 {
+#     type: number
+#     sql: ${TABLE}.season_3 ;;
+#   }
 
-  dimension: season_4 {
-    type: number
-    sql: ${TABLE}.season_4 ;;
-  }
+#   dimension: season_4 {
+#     type: number
+#     sql: ${TABLE}.season_4 ;;
+#   }
 
-  dimension: season_5 {
-    type: number
-    sql: ${TABLE}.season_5 ;;
-  }
+#   dimension: season_5 {
+#     type: number
+#     sql: ${TABLE}.season_5 ;;
+#   }
 
-  dimension: season_6 {
-    type: number
-    sql: ${TABLE}.season_6 ;;
-  }
+#   dimension: season_6 {
+#     type: number
+#     sql: ${TABLE}.season_6 ;;
+#   }
 
-  dimension: season_7 {
-    type: number
-    sql: ${TABLE}.season_7 ;;
-  }
+#   dimension: season_7 {
+#     type: number
+#     sql: ${TABLE}.season_7 ;;
+#   }
 
-  measure: count {
-    type: count
-    drill_fields: []
-  }
-}
+#   measure: count {
+#     type: count
+#     drill_fields: []
+#   }
+# }

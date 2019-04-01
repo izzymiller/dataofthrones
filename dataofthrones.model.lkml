@@ -45,7 +45,7 @@ explore: episodes {
   label: "Episodes"
   description: "Episode Level Data"
   join: death_episode {
-    fields: [death_episode.killed_by,death_episode.count_named_deaths,death_episode.manner_of_death,death_episode.character_name]
+#  covered by view now. fields: [death_episode.killed_by,death_episode.count_named_deaths,death_episode.manner_of_death,death_episode.character_name]
     view_label: "Deaths"
     type: left_outer
     sql_on: ${episodes.unique_episode} = ${death_episode.unique_episode} AND ${death_episode.character_name} = ${characters.character_name}   ;;

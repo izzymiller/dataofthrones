@@ -21,18 +21,34 @@ view: scripts_unnested {
     sql: ${TABLE}.id ;;
   }
 
-  dimension: speaker {
+  dimension: speaker_raw {
+    #Character Name. SCENEDIR for scene direction lines.
+    hidden: yes
     type: string
-    sql: ${TABLE}.scripts_speaker ;;
+    sql:
+        CASE
+          WHEN TRIM(${TABLE}.speaker) = 'SANDOR' THEN 'HOUND'
+          WHEN TRIM(${TABLE}.speaker) = 'BAELISH' THEN 'LITTLEFINGER'
+          WHEN TRIM(UPPER(${TABLE}.speaker)) = 'PETYR BAELISH' THEN 'LITTLEFINGER'
+        ELSE UPPER(TRIM(${TABLE}.speaker))
+        END;;
+  }
+
+  dimension: speaker {
+    description: "Character Name who Spoke. 'SCENEDIR' for scene directions"
+    type: string
+    sql: SPLIT(${speaker_raw}, ' ')[SAFE_OFFSET(0)] ;;
   }
 
   dimension: is_stopword {
+    description: "Is word a 'Stopword'? Like the,to,a,and,of,etc. Useful for filtering, or seeing who has the most vocal clutter."
     type: yesno
     sql: ${word} IN ('the','to','a','and','of','is','i','that','in','it') ;;
   }
 
 
   dimension: word {
+    description: "The word spoken"
     type: string
     sql: ${TABLE}.a ;;
   }
@@ -44,6 +60,11 @@ view: scripts_unnested {
 
   measure: count {
     type: count
+    drill_fields: [detail*]
+  }
+
+  set: detail {
+    fields: [episode,speaker,word]
   }
 
 

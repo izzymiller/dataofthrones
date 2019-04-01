@@ -32,6 +32,7 @@ sql_trigger_value: SELECT 1 ;;
   }
 
   dimension: unique_episode {
+    hidden: yes
     type: string
     sql: ${TABLE}.unique_episode ;;
   }
@@ -48,11 +49,13 @@ sql_trigger_value: SELECT 1 ;;
   }
 
   dimension: scene_id {
+    hidden: yes
     type: string
     sql: ${TABLE}.scene_id ;;
   }
 
   dimension: manner_of_death {
+    description: "How character died. Null if alive."
     type: string
     sql: ${TABLE}.manner_of_death ;;
   }
@@ -60,7 +63,8 @@ sql_trigger_value: SELECT 1 ;;
 
   measure: count_named_deaths {
     type: count_distinct
-    label: "Count Named Deaths"
+    description: "Number of deaths of named characters. Does not include unnamed deaths."
+    label: "Number of Named Deaths"
     sql: ${unique_death} ;;
     filters: {
       field: character_name
@@ -71,7 +75,8 @@ sql_trigger_value: SELECT 1 ;;
 
   measure: count_kills {
     type: count_distinct
-    label: "Count Kills"
+    label: "Number of Kills"
+    description: "Number of named kills. Does not include unnamed kills"
     sql: CASE WHEN ${killed_by} = ${character_name} THEN ${pk} ELSE NULL END ;;
   }
 

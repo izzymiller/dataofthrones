@@ -89,21 +89,25 @@ sql_trigger_value: 1 ;;
 
   dimension: name {
     label: " ⁣Name"
+    description: "Character Name"
     type: string
     sql: ${TABLE}.characters_name  ;;
   }
 
   dimension: species {
+    description: "Species of Character, assumed to be human if not clear."
     type: string
     sql: CASE WHEN ${TABLE}.species IS NULL THEN 'Human' ELSE ${TABLE}.species END ;;
   }
 
   dimension: death {
+    description: "Manner of Death. Null if alive."
     type: string
     sql: ${TABLE}.character_death ;;
   }
 
   dimension: is_alive {
+    description: "Is the character alive?"
     type: yesno
     sql: CASE WHEN ${TABLE}.character_is_alive = 'Yes' THEN TRUE
               WHEN ${TABLE}.characters_name = 'Jon Snow' THEN TRUE
@@ -117,19 +121,20 @@ sql_trigger_value: 1 ;;
   }
 
   dimension: actor_name {
+    description: "Name of primary actor"
     type: string
     sql: ${TABLE}.actorName ;;
   }
 
   dimension: image_full {
-    label: "Full"
+    label: "Full Image"
     group_label: "Images"
     type: string
     sql: ${TABLE}.characterimageFull ;;
   }
 
   dimension: image_thumb {
-    label: "Thumbnail"
+    label: "Thumbnail Image"
     group_label: "Images"
     type: string
     html: <img src={{value}} </img> ;;
@@ -137,6 +142,8 @@ sql_trigger_value: 1 ;;
   }
 
   dimension: character_link {
+    hidden: yes
+    description: "This links out to IMDb but I can't figure out exactly how to format the URL."
     type: string
     sql: ${TABLE}.characterLink ;;
   }
@@ -165,6 +172,7 @@ sql_trigger_value: 1 ;;
   }
 
   dimension: house {
+    description: "Characters House. None if unclear."
     type: string
     sql:
       CASE
@@ -175,6 +183,7 @@ sql_trigger_value: 1 ;;
   }
 
   dimension: current_alliance {
+    description: "Group currently allied with"
     type: string
     sql:
       CASE
@@ -253,23 +262,25 @@ sql_trigger_value: 1 ;;
   }
 
   measure: kills {
+    description: "Number of named kills made"
     type: sum
     sql: ${TABLE}.count_kills ;;
     drill_fields: [death_episode.character_name,death_episode.manner_of_death,death_episode.unique_episode]
   }
 
-  measure: total_screentime {
-    hidden: yes
-    label: "Total Screentime"
-    description: "Pre-Aggregated"
-    type: sum
-    sql: ${TABLE}.screentime ;;
-  }
+#   measure: total_screentime {
+#     hidden: yes
+#     label: "Total Screentime"
+#     description: "Pre-Aggregated. Not as good as the other ones"
+#     type: sum
+#     sql: ${TABLE}.screentime ;;
+#   }
 
   measure: screentime_seconds {
     group_label:"Screentime"
-    label: "Seconds"
-    description: "Total length in seconds of scenes including Character"
+    label: "Screentime (Seconds)"
+    description: "Total length in seconds of scenes including Character.
+    Not just their moments on screen, so slightly inflated from their genuine, precise, screen time"
     type: sum_distinct
     sql_distinct_key: ${scenes.unique_scene} ;;
     sql: ${scenes.scene_length_secs} ;;
@@ -277,8 +288,9 @@ sql_trigger_value: 1 ;;
 
   measure: screentime_minutes {
     group_label:"Screentime"
-    label: "Minutes"
-    description: "Total length in Minutes of scenes including Character"
+    label: "Screentime (Minutes)"
+    description: "Total length in Minutes of scenes including Character.
+    Not just their moments on screen, so slightly inflated from their genuine, precise, screen time"
     type: sum_distinct
     sql_distinct_key: ${scenes.unique_scene} ;;
     sql: ${scenes.scene_length_secs}/60 ;;

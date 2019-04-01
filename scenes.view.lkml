@@ -16,12 +16,15 @@ view: scenes {
   }
 
   dimension: scene_id {
+    description: "ID of Scene within the episode. In chronological order"
     ##The ID of the scene within the episode
     type: string
     sql: CONCAT(CAST(${TABLE}.scene_start AS string), '-', CAST(${TABLE}.scene_end AS string)) ;;
   }
 
   dimension: unique_ep {
+    label: "Unique Episode"
+    description: "Season/Episode combination"
 #     hidden: yes
     ## The Season/Episode Number combo
     type: string
@@ -29,12 +32,14 @@ view: scenes {
   }
 
   dimension: season_num {
+    label: "Season"
 #     hidden: yes
     type: number
     sql: ${TABLE}.season_num ;;
   }
 
   dimension: episode_num {
+    label: "Episode"
 #     hidden: yes
     type: number
     sql: ${TABLE}.episode_num ;;
@@ -68,19 +73,22 @@ view: scenes {
   }
 
   dimension: scene_end {
-    label: "Scene End"
+    label: "Scene End Time"
+    description: "Timestamp in Episode that scene ended"
     type: string
     sql: ${TABLE}.scene_end ;;
   }
 
   dimension: scene_start {
-    label: "Scene Start"
+    label: "Scene Start Time"
+    description: "Timestamp in Episode that scene began"
     type: string
     sql: ${TABLE}.scene_start ;;
   }
 
   dimension: scene_length_secs {
     type: number
+    hidden: yes
     sql: TIME_DIFF( ${TABLE}.scene_end,${TABLE}.scene_start,second) ;;
   }
 
@@ -102,10 +110,19 @@ view: scenes {
     type: count
   }
 
-  measure: scene_length {
+  measure: scene_length_seconds {
     label: "Scene Length (s)"
     type: sum_distinct
+    group_label: "Scene Length"
     sql: ${scene_length_secs} ;;
+    sql_distinct_key: ${unique_scene} ;;
+  }
+
+  measure: scene_length_minutes {
+    label: "Scene Length (m)"
+    group_label: "Scene Length"
+    type: sum_distinct
+    sql: ${scene_length_secs}/60 ;;
     sql_distinct_key: ${unique_scene} ;;
   }
 }

@@ -3,12 +3,16 @@ view: characters {
 
   dimension: abducted {
     group_label: "Relationships"
+    hidden: yes
+    #Hiding this because literally only 1 person was abducted and it clutters the explore needlessly
     type: string
     sql: ${TABLE}.abducted ;;
   }
 
   dimension: abducted_by {
     group_label: "Relationships"
+    hidden: yes
+    #Hiding this because literally only 1 person was abducted and it clutters the explore needlessly
     type: string
     sql: ${TABLE}.abductedBy ;;
   }
@@ -23,11 +27,13 @@ view: characters {
   dimension: actor_name {
     hidden: yes
     #Does not contain everything
+    #hidden in favor of character_facts
     type: string
     sql: ${TABLE}.actorName ;;
   }
 
   dimension: actors {
+    #hidden in favor of character_facts
     hidden: yes
     type: string
     sql: ${TABLE}.actors ;;
@@ -35,12 +41,14 @@ view: characters {
 
   dimension: allies {
     group_label: "Relationships"
+    description: "Individual Characters— Not necessarily on a House basis. "
     type: string
     sql: ${TABLE}.allies ;;
   }
 
   dimension: character_image_full {
     hidden: yes
+    #hidden in favor of character_facts
     group_label: "Images"
     label: "Full"
     type: string
@@ -50,6 +58,7 @@ view: characters {
 
   dimension: character_image_thumb {
     hidden: yes
+    #hidden in favor of character_facts
     group_label: "Images"
     label: "Thumbnail"
     type: string
@@ -58,6 +67,7 @@ view: characters {
   }
 
   dimension: character_link {
+    #hidden in favor of character_facts
     #IMDB char link
     hidden: yes
     type: string
@@ -65,6 +75,7 @@ view: characters {
   }
 
   dimension: character_name {
+    #hidden in favor of character_facts
     hidden: yes
     type: string
     sql: ${TABLE}.characterName ;;
@@ -83,8 +94,8 @@ view: characters {
   }
 
   dimension: house_name {
+    #hidden in favor of character_facts, which is more comprehensive.
     hidden: yes
-    #Small. Need to sync with characters_house?
     type: string
     sql: ${TABLE}.houseName ;;
   }
@@ -98,6 +109,7 @@ view: characters {
 
   dimension: killed {
     group_label: "Relationships"
+    #covered elsewhere
     hidden: yes
     type: string
     sql: ${TABLE}.killed ;;
@@ -105,12 +117,14 @@ view: characters {
 
   dimension: killed_by {
     group_label: "Relationships"
+    #covered elsewhere
     hidden: yes
     type: string
     sql: ${TABLE}.killedBy ;;
   }
 
   dimension: kingsguard {
+    description: "Is Character Kings Guard?"
     type: yesno
     sql: ${TABLE}.kingsguard ;;
   }

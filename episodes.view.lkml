@@ -39,7 +39,7 @@ view: episodes {
   }
 
   dimension: opening_sequence_locations {
-    description: "Locations seen in the opening title sequence"
+    description: "Locations seen in the opening title animation."
     type: string
     sql: ${TABLE}.opening_sequence_locations ;;
     map_layer_name: major_locations
@@ -58,6 +58,7 @@ view: episodes {
   }
 
   measure: count_episodes {
+    label: "Number of Episodes"
     type: count_distinct
     sql: ${unique_episode} ;;
     drill_fields: [detail*]
@@ -65,7 +66,7 @@ view: episodes {
 
   measure: scene_length {
     label: "Runtime (m)"
-    description: "Total length in minutes. Same as Screentime, but not tied to Character/Scene"
+    description: "Total length of episode in minutes. Same as Screentime, but not tied to Character/Scene"
     type: sum_distinct
     sql_distinct_key: ${scenes.unique_scene} ;;
     sql: ${scenes.scene_length_secs}/60 ;;

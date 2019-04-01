@@ -27,6 +27,8 @@ sql_trigger_value: SELECT 1 ;;
   }
 
   dimension: unique_episode {
+    label: "Unique Episode"
+    description: "Season/Episode combination"
     type: string
     sql: ${TABLE}.unique_episode ;;
   }
@@ -38,21 +40,25 @@ sql_trigger_value: SELECT 1 ;;
   }
 
   dimension: sex_with {
+    description: "Character name who the sex was with"
     type: string
     sql: ${TABLE}.sex_with ;;
   }
 
   dimension: sex_type {
+    description: "Type of Sex"
     type: string
     sql: ${TABLE}.sex_type ;;
   }
 
   dimension: sex_when {
+    description: "Time-frame in which the sex took place. Not 100% sure about this field!"
     type: string
     sql: ${TABLE}.sex_when ;;
   }
 
   dimension: scene_id {
+    hidden: yes
     type: string
     sql: ${TABLE}.scene_id ;;
   }

@@ -12,7 +12,7 @@ view: opening_locations {
   }
 
   dimension: name {
-    label: "Opening Location Name"
+    label: "Location Name"
     type: string
     sql: ${TABLE}.name ;;
     map_layer_name: got_geo
