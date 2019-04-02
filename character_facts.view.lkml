@@ -130,6 +130,7 @@ sql_trigger_value: 1 ;;
     label: "Full Image"
     group_label: "Images"
     type: string
+    html: <img src={{value}} </img> ;;
     sql: ${TABLE}.characterimageFull ;;
   }
 
