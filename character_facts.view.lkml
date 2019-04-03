@@ -94,6 +94,13 @@ sql_trigger_value: 1 ;;
     sql: ${TABLE}.characters_name  ;;
   }
 
+  dimension: first_name {
+    label: "First Name"
+    description: "First Name of Character"
+    type: string
+    sql: SPLIT(${TABLE}.characters_name, " ")[ORDINAL(1)] ;;
+  }
+
   dimension: species {
     description: "Species of Character, assumed to be human if not clear."
     type: string
