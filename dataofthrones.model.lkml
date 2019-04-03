@@ -121,7 +121,7 @@ explore: scene_level_detail {
 explore: scripts {
   #This explore contains line-level script information.
   #Scripts_unnested is broken up by word, to do a word cloud with
-  fields: [ALL_FIELDS*,-episodes.scene_length]
+  fields: [ALL_FIELDS*,-episodes.scene_length,-character_facts.screentime_seconds,-character_facts.screentime_minutes]
   #Lines
   join: scripts_unnested {
     type: left_outer
@@ -133,6 +133,13 @@ explore: scripts {
     type: left_outer
     relationship: many_to_many
     sql_on: SPLIT(LOWER(${characters.character_name}),' ')[SAFE_OFFSET(0)] = lower(${scripts.speaker}) ;;
+  }
+
+  join: character_facts {
+    view_label: "Characters"
+    type: left_outer
+    relationship: one_to_one
+    sql_on: ${character_facts.name} = ${characters.character_name} ;;
   }
   join: episodes {
     type: left_outer
