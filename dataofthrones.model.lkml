@@ -127,7 +127,7 @@ explore: scripts {
     type: left_outer
     relationship: many_to_many
     view_label: "Broken Up By Word"
-    sql_on: ${scripts.episode} = ${scripts_unnested.episode} ;;
+    sql_on: ${scripts.episode} = ${scripts_unnested.episode} AND ${scripts.speaker} = ${scripts_unnested.speaker} ;;
   }
   join: characters {
     type: left_outer
