@@ -285,6 +285,7 @@ sql_trigger_value: 1 ;;
     type: sum_distinct
     sql_distinct_key: ${scenes.unique_scene} ;;
     sql: ${scenes.scene_length_secs} ;;
+    drill_fields: [detail*]
   }
 
   measure: screentime_minutes {
@@ -296,6 +297,7 @@ sql_trigger_value: 1 ;;
     sql_distinct_key: ${scenes.unique_scene} ;;
     sql: ${scenes.scene_length_secs}/60 ;;
     value_format_name: decimal_0
+    drill_fields: [detail*]
   }
 
 
