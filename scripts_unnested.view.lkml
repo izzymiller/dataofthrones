@@ -27,10 +27,10 @@ view: scripts_unnested {
     type: string
     sql:
         CASE
-          WHEN TRIM(${TABLE}.speaker) = 'SANDOR' THEN 'HOUND'
-          WHEN TRIM(${TABLE}.speaker) = 'BAELISH' THEN 'LITTLEFINGER'
-          WHEN TRIM(UPPER(${TABLE}.speaker)) = 'PETYR BAELISH' THEN 'LITTLEFINGER'
-        ELSE UPPER(TRIM(${TABLE}.speaker))
+          WHEN TRIM(${TABLE}.scripts_speaker) = 'SANDOR' THEN 'HOUND'
+          WHEN TRIM(${TABLE}.scripts_speaker) = 'BAELISH' THEN 'LITTLEFINGER'
+          WHEN TRIM(UPPER(${TABLE}.scripts_speaker)) = 'PETYR BAELISH' THEN 'LITTLEFINGER'
+        ELSE UPPER(TRIM(${TABLE}.scripts_speaker))
         END;;
   }
 
