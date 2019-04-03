@@ -114,6 +114,12 @@ sql_trigger_value: 1 ;;
               ELSE FALSE END;;
   }
 
+  dimension: has_killed {
+    description: "Has the character killed anyone?"
+    type: yesno
+    sql: ${TABLE}.count_kills > 0 ;;
+  }
+
   dimension: actor_link {
     hidden: yes
     type: string
@@ -266,7 +272,7 @@ sql_trigger_value: 1 ;;
     description: "Number of named kills made"
     type: sum
     sql: ${TABLE}.count_kills ;;
-    drill_fields: [death_episode.character_name,death_episode.manner_of_death,death_episode.unique_episode]
+#     drill_fields: [death_episode.character_name,death_episode.manner_of_death,death_episode.unique_episode]
   }
 
 #   measure: total_screentime {

@@ -74,6 +74,7 @@ sql_trigger_value: SELECT 1 ;;
   }
 
   measure: count_kills {
+    hidden: yes
     type: count_distinct
     label: "Number of Kills"
     description: "Number of named kills. Does not include unnamed kills"
