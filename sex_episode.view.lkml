@@ -66,6 +66,11 @@ sql_trigger_value: SELECT 1 ;;
   measure: count_sex {
     type: count_distinct
     sql: ${pk} ;;
+    drill_fields: [detail*]
+  }
+
+  set: detail {
+    fields: [unique_episode,scene_id,character_name,sex_with,sex_type]
   }
 
 
