@@ -17,6 +17,7 @@ view: scripts_unnested {
 
   dimension: pk {
     primary_key: yes
+    hidden: yes
     type: number
     sql: ${TABLE}.id ;;
   }
