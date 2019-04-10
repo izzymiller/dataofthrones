@@ -5,6 +5,7 @@ view: scripts {
   dimension: id {
     type: number
     primary_key: yes
+    hidden: yes
     sql: ${TABLE}.id ;;
   }
 
@@ -17,6 +18,7 @@ view: scripts {
 
 
   dimension: episode {
+    hidden: yes
     label: "Episode"
     description: "Episode Title"
     type: string
