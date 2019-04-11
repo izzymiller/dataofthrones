@@ -69,7 +69,7 @@ view: scenes {
     label: "Location"
     type: string
     sql: ${TABLE}.location ;;
-    map_layer_name: major_locations
+#     map_layer_name: major_locations
   }
 
   dimension: scene_end {
@@ -108,6 +108,7 @@ view: scenes {
 
   measure: count {
     type: count
+    drill_fields: [detail*]
   }
 
   measure: scene_length_seconds {
@@ -116,6 +117,7 @@ view: scenes {
     group_label: "Scene Length"
     sql: ${scene_length_secs} ;;
     sql_distinct_key: ${unique_scene} ;;
+    drill_fields: [detail*]
   }
 
   measure: scene_length_minutes {
@@ -124,6 +126,11 @@ view: scenes {
     type: sum_distinct
     sql: ${scene_length_secs}/60 ;;
     sql_distinct_key: ${unique_scene} ;;
+    drill_fields: [detail*]
+  }
+
+  set: detail {
+    fields: [season_num,episode_num,unique_scene,location,sub_location]
   }
 }
 
@@ -295,7 +302,6 @@ view: scene_characters {
 #     }
 #     sql_distinct_key: CASE WHEN ${characters_killed_by} = ${characters_name} THEN CONCAT(${characters_name}, CAST(${pk} AS string)) ELSE NULL END ;;
 #   }
-
 
 
 }
