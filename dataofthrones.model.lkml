@@ -34,7 +34,7 @@ explore: characters {
     sql_on: ${scene_characters.characters_name} = ${character_facts.name} ;;
   }
   join: scenes {
-    relationship: one_to_one
+    relationship: one_to_many
     fields: []
     sql_on: ${scenes.scene_id} = ${scene_characters.scene_id};;
   }

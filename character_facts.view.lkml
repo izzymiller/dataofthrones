@@ -53,6 +53,7 @@ GROUP BY 1
       ,characters.characterImageThumb
       ,characters.characterLink
       ,characters.species
+      ,gender.gender
       ,kills.count_kills
       ,scene_screentime.scene_length AS screentime
       ,CASE
@@ -71,10 +72,11 @@ GROUP BY 1
       FROM deaths
       LEFT JOIN game_of_thrones_19.characters  AS characters ON characters.characterName = deaths.characters_name
       LEFT JOIN game_of_thrones_19.characters_houses AS houses ON deaths.characters_name = houses.string_field_0
+      LEFT JOIN game_of_thrones_19.char_gender AS gender ON gender.character_name = characters.characterName
       LEFT JOIN scene_screentime ON scene_screentime.character_name = characters.characterName
       LEFT JOIN kills ON kills.killer_name = characters.characterName
       WHERE deaths.characters_name IS NOT NULL
-      GROUP BY 1, 2, 3, 4, 5, 6, 7, 8, 9, 10,11,12,13
+      GROUP BY 1, 2, 3, 4, 5, 6, 7, 8, 9, 10,11,12,13,14
       ORDER BY 1
  ;;
 
@@ -112,6 +114,13 @@ sql_trigger_value: 1 ;;
     sql: CASE WHEN ${TABLE}.character_is_alive = 'Yes' THEN TRUE
               WHEN ${TABLE}.characters_name = 'Jon Snow' THEN TRUE
               ELSE FALSE END;;
+  }
+
+  dimension: gender {
+    type: string
+    label: "Gender"
+    description: "Gender of Character. Only populated for main characters!"
+    sql: COALESCE(${TABLE}.gender,"Unspecified") ;;
   }
 
   dimension: has_killed {
@@ -275,13 +284,13 @@ sql_trigger_value: 1 ;;
 #     drill_fields: [death_episode.character_name,death_episode.manner_of_death,death_episode.unique_episode]
   }
 
-#   measure: total_screentime {
-#     hidden: yes
-#     label: "Total Screentime"
-#     description: "Pre-Aggregated. Not as good as the other ones"
-#     type: sum
-#     sql: ${TABLE}.screentime ;;
-#   }
+#    measure: total_screentime {
+#      hidden: no
+#      label: "Total Screentime"
+#      description: "Pre-Aggregated. Not as good as the other ones"
+#      type: sum
+#      sql: ${TABLE}.screentime ;;
+#    }
 
   measure: screentime_seconds {
     group_label:"Screentime"
