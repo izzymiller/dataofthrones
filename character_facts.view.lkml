@@ -53,7 +53,7 @@ GROUP BY 1
       ,characters.characterImageThumb
       ,characters.characterLink
       ,characters.species
-      ,gender.gender
+      ,CASE WHEN gender.gender = "male" THEN "MALE" WHEN gender.gender = "female" THEN "Female"
       ,kills.count_kills
       ,scene_screentime.scene_length AS screentime
       ,CASE
