@@ -132,7 +132,7 @@ explore: scripts {
   join: characters {
     type: left_outer
     relationship: many_to_many
-    sql_on: SPLIT(LOWER(${characters.character_name}),' ')[SAFE_OFFSET(0)] = lower(${scripts.speaker}) ;;
+    sql_on: SPLIT(LOWER(${characters.character_name}),' ')[SAFE_OFFSET(0)] = lower(${scripts.speaker}) AND ${characters.character_name} != "Jon Arryn" ;;
   }
 
   join: character_facts {
