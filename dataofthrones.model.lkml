@@ -136,7 +136,7 @@ explore: scripts {
   join: characters {
     type: left_outer
     relationship: many_to_many
-    sql_on: SPLIT(LOWER(${characters.character_name}),' ')[SAFE_OFFSET(0)] = lower(${scripts.speaker}) AND ${characters.character_name} != "Jon Arryn" ;;
+    sql_on: ${character_facts.firstname} = lower(${scripts.speaker}) AND ${characters.character_name} != "Jon Arryn" ;;
   }
 
   join: character_facts {
@@ -185,7 +185,7 @@ explore: gender_gap {
   join: scripts {
       type: left_outer
       relationship: many_to_many
-      sql_on: SPLIT(LOWER(${characters.character_name}),' ')[SAFE_OFFSET(0)] = lower(${scripts.speaker}) AND ${characters.character_name} != "Jon Arryn" ;;
+      sql_on: ${character_facts.firstname} = lower(${scripts.speaker}) AND ${characters.character_name} != "Jon Arryn" ;;
   }
 
   join: scripts_unnested {

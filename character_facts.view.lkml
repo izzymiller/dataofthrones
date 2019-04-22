@@ -51,6 +51,7 @@ GROUP BY 1
       ,characters.actorName
       ,characters.characterimageFull
       ,characters.characterImageThumb
+      ,SPLIT(LOWER(characters.characterName),' ')[SAFE_OFFSET(0)] AS firstname
       ,characters.characterLink
       ,characters.species
       ,CASE WHEN gender.gender = "male" THEN "Male" WHEN gender.gender = "female" THEN "Female" END AS gender
@@ -94,6 +95,12 @@ sql_trigger_value: 1 ;;
     description: "Character Name"
     type: string
     sql: ${TABLE}.characters_name  ;;
+  }
+  dimension: firstname {
+    type: string
+    hidden: yes
+    #for joining
+    sql: ${TABLE}.firstname ;;
   }
 
   dimension: species {
