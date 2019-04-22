@@ -284,13 +284,13 @@ sql_trigger_value: 1 ;;
 #     drill_fields: [death_episode.character_name,death_episode.manner_of_death,death_episode.unique_episode]
   }
 
-#    measure: total_screentime {
-#      hidden: no
-#      label: "Total Screentime"
-#      description: "Pre-Aggregated. Not as good as the other ones"
-#      type: sum
-#      sql: ${TABLE}.screentime ;;
-#    }
+   measure: total_screentime {
+     hidden: no
+     label: "Total Screentime"
+     description: "Pre-Aggregated. Not as good as the other ones"
+     type: sum
+     sql: ${TABLE}.screentime ;;
+   }
 
   measure: screentime_seconds {
     group_label:"Screentime"

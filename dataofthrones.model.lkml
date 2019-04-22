@@ -18,6 +18,7 @@ map_layer: major_locations {
 ####EXPLORES###
 ###############
 explore: characters {
+  persist_for: "60000 minutes"
   view_name: character_facts
   label: "Characters"
   view_label: "Characters"
@@ -41,6 +42,7 @@ explore: characters {
 }
 
 explore: episodes {
+  persist_for: "60000 minutes"
   sql_always_where: ${season_num} != 8 ;; # Remove Season 8 null references
   label: "Episodes"
   description: "Episode Level Data"
@@ -88,6 +90,7 @@ explore: episodes {
 }
 
 explore: scene_level_detail {
+  persist_for: "60000 minutes"
   sql_always_where: ${season_num} != 8 ;; # Remove Season 8 null references
   view_name: episodes
   label: "Scene Level Detail"
@@ -119,6 +122,7 @@ explore: scene_level_detail {
 }
 
 explore: scripts {
+  persist_for: "60000 minutes"
   #This explore contains line-level script information.
   #Scripts_unnested is broken up by word, to do a word cloud with
   fields: [ALL_FIELDS*,-episodes.scene_length,-character_facts.screentime_seconds,-character_facts.screentime_minutes]
@@ -146,6 +150,58 @@ explore: scripts {
     relationship: many_to_many
     sql_on: ${scripts.episode} = ${episodes.title} ;;
   }
+}
+
+
+explore: gender_gap {
+  persist_for: "90000 minutes"
+  always_filter: {
+    filters: {
+      field: character_facts.name
+      value: "Cersei Lannister,Daenerys Targaryen,Sansa Stark,Arya Stark,Brienne of Tarth,Catelyn Stark,Margaery Tyrell,Melisandre,Olenna Tyrell,Missandei,Yara Greyjoy,Ygritte,Shae,Gilly,Jon Snow,Jaime Lannister,Peter Baelish,Samwell Tarly,Davos Seaworth,Theon Greyjoy,Lord Varys,Bronn,Jorah Mormont,Tywin Lannister,Eddard Stark,Robb Stark,Sandor Clegane,Lysa Arryn,Tyrion Lannister,Petyr Baelish"
+    }
+  }
+  view_name: character_facts
+  hidden: no
+  label: "Gender Gap of Thrones"
+  view_label: "Characters"
+  join: characters {
+    view_label: "Characters"
+    fields: [characters.abducted,characters.abducted_by,characters.allies,characters.kingsguard,characters.married_engaged,characters.royal]
+    type: left_outer
+    relationship: one_to_one
+    sql_on: ${character_facts.name} = ${characters.character_name} ;;
+  }
+  join: scene_characters {
+    relationship: one_to_many
+    fields: []
+    sql_on: ${scene_characters.characters_name} = ${character_facts.name} ;;
+  }
+  join: scenes {
+    relationship: one_to_many
+    sql_on: ${scenes.scene_id} = ${scene_characters.scene_id};;
+  }
+
+  join: scripts {
+      type: left_outer
+      relationship: many_to_many
+      sql_on: SPLIT(LOWER(${characters.character_name}),' ')[SAFE_OFFSET(0)] = lower(${scripts.speaker}) AND ${characters.character_name} != "Jon Arryn" ;;
+  }
+
+  join: scripts_unnested {
+    type: left_outer
+    relationship: many_to_many
+    view_label: "Scripts — Broken Up By Word"
+    sql_on: ${scripts.episode} = ${scripts_unnested.episode} AND ${scripts.speaker} = ${scripts_unnested.speaker} ;;
+  }
+
+  join: episodes {
+    type: left_outer
+    relationship: many_to_many
+    sql_on: ${episodes.unique_episode} = ${scenes.unique_ep} ;;
+  }
+
+
 }
 
 ##UNDER CONSTRUCTION
