@@ -133,11 +133,6 @@ explore: scripts {
     view_label: "Broken Up By Word"
     sql_on: ${scripts.episode} = ${scripts_unnested.episode} AND ${scripts.speaker} = ${scripts_unnested.speaker} ;;
   }
-  join: characters {
-    type: left_outer
-    relationship: many_to_many
-    sql_on: ${character_facts.firstname} = lower(${scripts.speaker}) AND ${characters.character_name} != "Jon Arryn" ;;
-  }
 
   join: character_facts {
     view_label: "Characters"
@@ -145,6 +140,14 @@ explore: scripts {
     relationship: one_to_one
     sql_on: ${character_facts.name} = ${characters.character_name} ;;
   }
+
+  join: characters {
+    type: left_outer
+    relationship: many_to_many
+    sql_on: ${character_facts.firstname} = lower(${scripts.speaker}) AND ${character_facts.name} != "Jon Arryn" ;;
+  }
+
+
   join: episodes {
     type: left_outer
     relationship: many_to_many
