@@ -138,7 +138,7 @@ explore: scripts {
     view_label: "Characters"
     type: left_outer
     relationship: one_to_one
-    sql_on: ${character_facts.firstname} = lower(${scripts.speaker}) AND ${character_facts.name} != "Jon Arryn" ;;
+    sql_on: ${character_facts.firstname} = ${scripts.speaker} AND ${character_facts.name} != "Jon Arryn" ;;
   }
 
   join: characters {
@@ -188,7 +188,7 @@ explore: gender_gap {
   join: scripts {
       type: left_outer
       relationship: many_to_many
-      sql_on: ${character_facts.firstname} = lower(${scripts.speaker}) AND ${characters.character_name} != "Jon Arryn" ;;
+      sql_on: ${character_facts.firstname} = UPPER(${scripts.speaker}) AND ${characters.character_name} != "Jon Arryn" ;;
   }
 
   join: scripts_unnested {

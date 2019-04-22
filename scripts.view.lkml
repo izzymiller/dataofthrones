@@ -45,18 +45,13 @@ view: scripts {
     hidden: yes
     type: string
     sql:
-        CASE
-          WHEN TRIM(${TABLE}.speaker) = 'SANDOR' THEN 'HOUND'
-          WHEN TRIM(${TABLE}.speaker) = 'BAELISH' THEN 'LITTLEFINGER'
-          WHEN TRIM(UPPER(${TABLE}.speaker)) = 'PETYR BAELISH' THEN 'LITTLEFINGER'
-        ELSE UPPER(TRIM(${TABLE}.speaker))
-        END;;
+        ${TABLE}.speaker;;
   }
 
   dimension: speaker {
     description: "Character Name who Spoke. 'SCENEDIR' for scene directions"
     type: string
-    sql: SPLIT(${speaker_raw}, ' ')[SAFE_OFFSET(0)] ;;
+    sql: ${TABLE}.speaker ;;
   }
 
 
