@@ -161,7 +161,7 @@ explore: gender_gap {
   always_filter: {
     filters: {
       field: character_facts.name
-      value: "Cersei Lannister,Daenerys Targaryen,Sansa Stark,Arya Stark,Brienne of Tarth,Catelyn Stark,Margaery Tyrell,Melisandre,Olenna Tyrell,Missandei,Yara Greyjoy,Ygritte,Shae,Gilly,Jon Snow,Jaime Lannister,Peter Baelish,Samwell Tarly,Davos Seaworth,Theon Greyjoy,Lord Varys,Bronn,Jorah Mormont,Tywin Lannister,Eddard Stark,Robb Stark,Sandor Clegane,Lysa Arryn,Tyrion Lannister,Petyr Baelish"
+      value: "Cersei Lannister,Daenerys Targaryen,Stannis Baratheon,Sansa Stark,Arya Stark,Brienne of Tarth,Catelyn Stark,Margaery Tyrell,Melisandre,Olenna Tyrell,Missandei,Yara Greyjoy,Ygritte,Shae,Gilly,Jon Snow,Jaime Lannister,Peter Baelish,Samwell Tarly,Davos Seaworth,Theon Greyjoy,Lord Varys,Bronn,Jorah Mormont,Tywin Lannister,Eddard Stark,Robb Stark,Sandor Clegane,Lysa Arryn,Tyrion Lannister,Petyr Baelish"
     }
   }
   view_name: character_facts
@@ -176,8 +176,8 @@ explore: gender_gap {
     sql_on: ${character_facts.name} = ${characters.character_name} ;;
   }
   join: scene_characters {
+    view_label: "Scene Actions"
     relationship: one_to_many
-    fields: []
     sql_on: ${scene_characters.characters_name} = ${character_facts.name} ;;
   }
   join: scenes {
