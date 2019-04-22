@@ -77,7 +77,7 @@ GROUP BY 1
       LEFT JOIN scene_screentime ON scene_screentime.character_name = characters.characterName
       LEFT JOIN kills ON kills.killer_name = characters.characterName
       WHERE deaths.characters_name IS NOT NULL
-      GROUP BY 1, 2, 3, 4, 5, 6, 7, 8, 9, 10,11,12,13,14
+      GROUP BY 1, 2, 3, 4, 5, 6, 7, 8, 9, 10,11,12,13,14,15
       ORDER BY 1
  ;;
 
