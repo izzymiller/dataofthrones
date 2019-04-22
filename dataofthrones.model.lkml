@@ -138,13 +138,13 @@ explore: scripts {
     view_label: "Characters"
     type: left_outer
     relationship: one_to_one
-    sql_on: ${character_facts.name} = ${characters.character_name} ;;
+    sql_on: ${character_facts.firstname} = lower(${scripts.speaker}) AND ${character_facts.name} != "Jon Arryn" ;;
   }
 
   join: characters {
     type: left_outer
     relationship: many_to_many
-    sql_on: ${character_facts.firstname} = lower(${scripts.speaker}) AND ${character_facts.name} != "Jon Arryn" ;;
+    sql_on: ${character_facts.name} = ${characters.character_name} ;;
   }
 
 
