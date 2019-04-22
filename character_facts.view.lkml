@@ -51,7 +51,7 @@ GROUP BY 1
       ,characters.actorName
       ,characters.characterimageFull
       ,characters.characterImageThumb
-      ,SPLIT(LOWER(characters.characterName),' ')[SAFE_OFFSET(0)] AS firstname
+      ,SPLIT(UPPER(characters.characterName),' ')[SAFE_OFFSET(0)] AS firstname
       ,characters.characterLink
       ,characters.species
       ,CASE WHEN gender.gender = "male" THEN "Male" WHEN gender.gender = "female" THEN "Female" END AS gender
