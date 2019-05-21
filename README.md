@@ -3,7 +3,7 @@
 #
 #
 
-#### *Data Acquisition*
+### *Data Acquisition*
 When we had the idea to run the Data of Thrones campaign, we kinda just decided to go for it without a whole lot of scoping. We set up a marketing plan, timelines, blog post themes, formats, etc... And then realized we probably had to get some data to analyze. 
 
 When we ran the previous campaign, in 2017, we used 3 datasets: A [simple screentime dataset](https://data.world/aendrew/game-of-thrones-screen-times) and a [deaths dataset](https://www.kaggle.com/mylesoneill/game-of-thrones) were the TV-based tables, and they got joined into a fact table based on information from the books about battles and such.
@@ -98,7 +98,7 @@ UPDATE  `lookerdata.game_of_thrones_19.script_by_word` SET scripts_unnested_spea
 
 After that, it was time to hit the LookML!
 
-#### *Building some gross Derived Tables*
+### *Building some gross Derived Tables*
 I'm not the best Looker analyst (I'm just a friendly neighborhood community manager!), so take all of this with a grain of salt. Some parts of the model/views are downright hacky, and lots of it is slow. I had some help from Maire Newton on a lot of this, too, who is a much more level-headed LookML developer than me!
 
 I wound up making a character_facts table, since pulling a lot of character information from scene-level data wasn't great. 
@@ -1349,7 +1349,7 @@ view: scene_characters {
 }
 ```
 
-#### *The model*
+### *The model*
 All of these views come together into just 4 explores. Characters, Episodes, Scene-Level Detail, and Scripts.
 Characters:
 ```
@@ -1497,10 +1497,10 @@ explore: scripts {
 
 There are some other loose ends, like `locations`— I actually created a custom topojson of westeros, which you can see in the repo but I couldn't get it to work well enough under the time constraints to open it up the public. In a nutshell, though, that's the model! 
 
-#### *The presentation*
+### *The presentation*
 The dashboards are nothing too special, actually! The incredible Maire Newton and Sooji Kim (who also helped massively with the model building!!!) are excellent at building beautiful dashboards. Nuff said. 
 
-We leveraged some html in text tiles to make things centered and pop out
+We leveraged some html in text tiles to make things centered and pop out more. 
 ```
 **New to Looker?** Check out our guide to <a href="https://discourse.looker.com/t/getting-started-with-looker/11821?utm_campaign=70144000001JCJ0&utm_source=play.looker.com&utm_medium=referral&utm_content=DataOfThronesGoTCampaignQ2Y19" target="_blank">Getting Started with Looker</a>.
 
@@ -1512,4 +1512,4 @@ We leveraged some html in text tiles to make things centered and pop out
 
 **Want Looker for your data?** <a href="https://looker.com/demo?utm_campaign=70144000001JCJ0&utm_source=play.looker.com&utm_medium=referral&utm_content=DataOfThronesGoTCampaignQ2Y19" target="_blank">Request a demo</a> and see your data in a new way.
 ```
-But aside from that, it's just a plain vanilla Looker dashboard that had a lot of thought go into layout. It was embedded, so we could add themes to make the entire thing white. Un-embedded, it looks a little bit uglier and you can better see how it's laid out :) ![image|690x347](https://i.imgur.com/yrL2dNt.png) 
+But aside from that, it's just a plain vanilla Looker dashboard that had a lot of thought go into layout. It was embedded, so we could add themes to make the entire thing white. Un-embedded, it looks a little bit more normal and you can better see how it's laid out :) ![image|690x347](https://i.imgur.com/yrL2dNt.png) 
