@@ -91,7 +91,7 @@ sql_trigger_value: 1 ;;
   }
 
   dimension: name {
-    label: " ⁣Name"
+    label: "⁣Name"
     description: "Character Name"
     type: string
     sql: ${TABLE}.characters_name  ;;
