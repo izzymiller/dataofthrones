@@ -137,7 +137,7 @@ explore: scripts {
   join: character_facts {
     view_label: "Characters"
     type: left_outer
-    relationship: one_to_one
+    relationship: many_to_one
     sql_on: ${character_facts.firstname} = ${scripts.speaker} AND ${character_facts.name} != "Jon Arryn" ;;
   }
 
