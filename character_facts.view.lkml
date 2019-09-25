@@ -68,11 +68,10 @@ GROUP BY 1
         WHEN REGEXP_CONTAINS(deaths.characters_name, 'Dothraki') THEN 'Dothraki'
         WHEN REGEXP_CONTAINS(deaths.characters_name, 'Tyrell') THEN 'Tyrell'
         WHEN REGEXP_CONTAINS(deaths.characters_name, 'Watchman') THEN 'Nights Watch'
-      ELSE houses.string_field_1 END AS character_house
+      ELSE characters.houseName END AS character_house
       ,row_number() OVER() AS key
       FROM deaths
       LEFT JOIN game_of_thrones_19.characters  AS characters ON characters.characterName = deaths.characters_name
-      LEFT JOIN game_of_thrones_19.characters_houses AS houses ON deaths.characters_name = houses.string_field_0
       LEFT JOIN game_of_thrones_19.char_gender AS gender ON gender.character_name = characters.characterName
       LEFT JOIN scene_screentime ON scene_screentime.character_name = characters.characterName
       LEFT JOIN kills ON kills.killer_name = characters.characterName
