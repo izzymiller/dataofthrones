@@ -19,6 +19,7 @@ view: are_they_alive {
       column: name { field: character_facts.name }
       column: is_alive { field: character_facts.is_alive }
       column: death { field: character_facts.death }
+      column: house {field: character_facts.house}
     }
   }
   dimension: name {
@@ -33,6 +34,9 @@ view: are_they_alive {
   }
   dimension: death {
     label: "Manner of Death"
+  }
+  dimension: house {
+    label: "House Name"
   }
   dimension: what_happened{
     label: "Character's Fate"
