@@ -19,6 +19,7 @@ view: are_they_alive {
   dimension: name {
     label: "Characters ⁣Name"
     description: "Character Name"
+    case_sensitive: no
   }
   dimension: is_alive {
     label: "Characters Is Alive"
