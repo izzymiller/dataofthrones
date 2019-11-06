@@ -56,7 +56,64 @@ view: are_they_alive {
         WHEN ${is_alive} = false THEN 'No.'
         ELSE 'Unsure...' END) ELSE NULL END ;;
   }
+  dimension: death_image {
+    type: string
+    sql: CASE
+      WHEN ${death} IN ('Flayed','Back stab','Chest stab','Eye stab','Face stab','Multiple stabs','Neck stab','Stab','Throat stab','Throat slash') THEN 'https://i.ibb.co/ftr8FZs/knife.jpg'
+      WHEN ${death} IN ('Arrow') THEN 'https://i.ibb.co/9tHXzs5/bow-and-arrow-clip-art-cartoon-vector-1522404.jpg'
+      WHEN ${death} IN ('Burning','Burning,Back stab,Chest stab,Chest stab','Wildfire','Molten gold') THEN 'https://i.ibb.co/SdLfznG/fire.jpg'
+      WHEN ${death} IN ('Mauling') THEN 'https://i.ibb.co/9NLs70P/mauling.jpg'
+      WHEN ${death} IN ('Beaten','Giant','Head crush') THEN 'https://i.ibb.co/vZnyrkq/fist.png'
+      WHEN ${death} IN ('Hanging') THEN 'https://i.ibb.co/kXqZGdG/noose.jpg'
+      WHEN ${death} IN ('Decapitation') THEN 'https://i.ibb.co/LdSpCH5/decapitation.jpg'
+      ELSE 'https://i.ibb.co/Nx1WwC6/nope.png' END ;;
+   html: <img src="{{ value }}" width="100" /> ;;
+  }
 }
+
+
+# Arrow
+# Back stab
+# Beaten
+# Boar
+# Burning
+# Burning,Back stab,Chest stab,Chest stab
+# Chest stab
+# Choking
+# Decapitation
+# Door
+# Drowning
+# Eye stab
+# Face stab
+# Falling
+# Frozen
+# Giant
+# Gutted
+# Hanging
+# Head crush
+# Horse
+# Malformed Birth
+# Mauling
+# Molten gold
+# Moon Door
+# Multiple stabs
+# Multiple stabs,Burning
+# Neck snap
+# Neck stab
+# Old age
+# Poison
+# Poison dart
+# Safe
+# Shadow baby
+# Stab
+# Suffocation
+# Throat slash
+# Throat stab
+# Tongue removal
+# Torn apart
+# Wight children
+# Wildfire
+
 
 view: who_killed {
   derived_table: {
