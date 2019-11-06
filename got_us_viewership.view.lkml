@@ -107,12 +107,13 @@ view: got_us_viewership {
     sql: ${TABLE}.episode_title ;;
   }
 
-  dimension: us_viewership_number {
+  dimension: episode_viewership {
+    description: "User viewership in the millions"
     type: string
     sql: ${TABLE}.us_viewership_number ;;
   }
 
   set: detail {
-    fields: [month, season_number, episode_number, episode_title, us_viewership_number]
+    fields: [month, season_number, episode_number, episode_title, episode_viewership]
   }
 }
