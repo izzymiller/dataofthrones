@@ -86,12 +86,18 @@ view: got_us_viewership {
     sql: ${TABLE}.month ;;
   }
 
+  dimension: unique_episode {
+    type: string
+    primary_key: yes
+    sql: CONCAT(CAST(${season_number} AS string),"-",CAST(${episode_number} AS string)) ;;
+  }
+
   dimension: season_number {
     type: string
     sql: ${TABLE}.season_number ;;
   }
 
-  dimension: overall_number {
+  dimension: episode_number {
     type: string
     sql: ${TABLE}.overall_number ;;
   }
@@ -107,6 +113,6 @@ view: got_us_viewership {
   }
 
   set: detail {
-    fields: [month, season_number, overall_number, episode_title, us_viewership_number]
+    fields: [month, season_number, episode_number, episode_title, us_viewership_number]
   }
 }

@@ -87,6 +87,12 @@ explore: episodes {
     type: left_outer
     sql_on: ${character_facts.name} = ${characters.character_name} ;;
   }
+  join: got_us_viewership {
+    relationship: one_to_one
+    view_label: "US Viewership"
+    type: left_outer
+    sql_on: ${episodes.unique_episode} = ${got_us_viewership.unique_episode} ;;
+  }
 }
 
 explore: scene_level_detail {
