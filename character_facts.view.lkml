@@ -69,7 +69,7 @@ GROUP BY 1
         WHEN REGEXP_CONTAINS(deaths.characters_name, 'Tyrell') THEN 'Tyrell'
         WHEN REGEXP_CONTAINS(deaths.characters_name, 'Watchman') THEN 'Nights Watch'
       ELSE characters.houseName END AS character_house
-      ,row_number() OVER() AS key
+      ,row_number() OVER() AS keyz
       FROM deaths
       LEFT JOIN game_of_thrones_19.characters  AS characters ON characters.characterName = deaths.characters_name
       LEFT JOIN game_of_thrones_19.char_gender AS gender ON gender.character_name = characters.characterName
@@ -80,7 +80,7 @@ GROUP BY 1
       ORDER BY 1
  ;;
 
-sql_trigger_value: 1 ;;
+sql_trigger_value: 2 ;;
   }
 
   dimension: id {
@@ -264,7 +264,7 @@ sql_trigger_value: 1 ;;
 
   dimension: key {
     type: number
-    sql: ${TABLE}.key ;;
+    sql: ${TABLE}.keyz ;;
     hidden: yes
     primary_key: yes
   }
