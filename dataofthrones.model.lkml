@@ -1,4 +1,4 @@
-connection: "lookerdata_publicdata_standard_sql"
+connection: "lookerdata"
 
 include: "*.view.lkml"                       # include all views in this project
 
